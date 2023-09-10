@@ -1,0 +1,131 @@
+
+;; Function fib (_Z3fibi, funcdef_no=1732, decl_uid=44206, cgraph_uid=466, symbol_order=496)
+
+int fib (int n)
+{
+  int D.49138;
+  int D.49137;
+  int D.49133;
+
+  <bb 2> :
+  if (n <= 0)
+    goto <bb 3>; [INV]
+  else
+    goto <bb 4>; [INV]
+
+  <bb 3> :
+  D.49133 = 0;
+  // predicted unlikely by early return (on trees) predictor.
+  goto <bb 7>; [INV]
+
+  <bb 4> :
+  if (n == 1)
+    goto <bb 5>; [INV]
+  else
+    goto <bb 6>; [INV]
+
+  <bb 5> :
+  D.49133 = 1;
+  // predicted unlikely by early return (on trees) predictor.
+  goto <bb 7>; [INV]
+
+  <bb 6> :
+  _1 = n + -1;
+  D.49137 = fib (_1);
+  _2 = D.49137;
+  _3 = n + -2;
+  D.49138 = fib (_3);
+  _4 = D.49138;
+  D.49133 = _2 + _4;
+
+  <bb 7> :
+<L4>:
+  return D.49133;
+
+}
+
+
+
+;; Function main (main, funcdef_no=1731, decl_uid=44207, cgraph_uid=465, symbol_order=495)
+
+int main ()
+{
+  int D.49130;
+  struct basic_ostream & D.49129;
+  int D.49128;
+  int x;
+  int D.49126;
+
+  <bb 2> :
+  std::operator<< <std::char_traits<char> > (&cout, "The first 10 Fibonacci numbers are: \n");
+  x = 0;
+  goto <bb 4>; [INV]
+
+  <bb 3> :
+  D.49128 = fib (x);
+  _1 = D.49128;
+  D.49129 = std::basic_ostream<char>::operator<< (&cout, _1);
+  _2 = D.49129;
+  std::operator<< <std::char_traits<char> > (_2, " ");
+  x = x + 1;
+
+  <bb 4> :
+  if (x <= 9)
+    goto <bb 3>; [INV]
+  else
+    goto <bb 5>; [INV]
+
+  <bb 5> :
+  std::basic_ostream<char>::operator<< (&cout, endl);
+  std::basic_ostream<char>::operator<< (&cout, 5);
+  D.49130 = fib (10);
+  _3 = D.49130;
+  std::basic_ostream<char>::operator<< (&cout, _3);
+  D.49126 = 0;
+
+  <bb 6> :
+<L3>:
+  return D.49126;
+
+}
+
+
+
+;; Function __static_initialization_and_destruction_0 (_Z41__static_initialization_and_destruction_0ii, funcdef_no=2235, decl_uid=49118, cgraph_uid=969, symbol_order=1026)
+
+void __static_initialization_and_destruction_0 (int __initialize_p, int __priority)
+{
+  <bb 2> :
+  if (__initialize_p == 1)
+    goto <bb 3>; [INV]
+  else
+    goto <bb 5>; [INV]
+
+  <bb 3> :
+  if (__priority == 65535)
+    goto <bb 4>; [INV]
+  else
+    goto <bb 5>; [INV]
+
+  <bb 4> :
+  std::ios_base::Init::Init (&__ioinit);
+  __cxxabiv1::__cxa_atexit (__dt_comp , &__ioinit, &__dso_handle);
+
+  <bb 5> :
+  return;
+
+}
+
+
+
+;; Function _GLOBAL__sub_I_main (_GLOBAL__sub_I_main, funcdef_no=2236, decl_uid=49124, cgraph_uid=970, symbol_order=1145)
+
+void _GLOBAL__sub_I_main ()
+{
+  <bb 2> :
+  __static_initialization_and_destruction_0 (1, 65535);
+  return;
+
+}
+
+

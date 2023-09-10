@@ -1,0 +1,150 @@
+
+;; Function fib (_Z3fibi, funcdef_no=1732, decl_uid=44206, cgraph_uid=466, symbol_order=496)
+
+int fib (int n)
+{
+  int D.49138;
+  int D.49137;
+  int D.49133;
+  int _1;
+  int _2;
+  int _3;
+  int _4;
+  int _5;
+  int _10;
+  int _12;
+  int _13;
+  int _14;
+  int _15;
+
+  <bb 2> :
+  if (n_7(D) <= 0)
+    goto <bb 3>; [INV]
+  else
+    goto <bb 4>; [INV]
+
+  <bb 3> :
+  _15 = 0;
+  // predicted unlikely by early return (on trees) predictor.
+  goto <bb 7>; [INV]
+
+  <bb 4> :
+  if (n_7(D) == 1)
+    goto <bb 5>; [INV]
+  else
+    goto <bb 6>; [INV]
+
+  <bb 5> :
+  _14 = 1;
+  // predicted unlikely by early return (on trees) predictor.
+  goto <bb 7>; [INV]
+
+  <bb 6> :
+  _1 = n_7(D) + -1;
+  _10 = fib (_1);
+  _2 = _10;
+  _3 = n_7(D) + -2;
+  _12 = fib (_3);
+  _4 = _12;
+  _13 = _2 + _4;
+
+  <bb 7> :
+  # _5 = PHI <_15(3), _14(5), _13(6)>
+<L4>:
+  return _5;
+
+}
+
+
+
+;; Function main (main, funcdef_no=1731, decl_uid=44207, cgraph_uid=465, symbol_order=495)
+
+int main ()
+{
+  int D.49130;
+  struct basic_ostream & D.49129;
+  int D.49128;
+  int x;
+  int D.49126;
+  int _1;
+  struct basic_ostream & _2;
+  int _3;
+  int _12;
+  int _14;
+  int _16;
+  struct basic_ostream & _18;
+
+  <bb 2> :
+  std::operator<< <std::char_traits<char> > (&cout, "The first 10 Fibonacci numbers are: \n");
+  x_8 = 0;
+  goto <bb 4>; [INV]
+
+  <bb 3> :
+  _16 = fib (x_4);
+  _1 = _16;
+  _18 = std::basic_ostream<char>::operator<< (&cout, _1);
+  _2 = _18;
+  std::operator<< <std::char_traits<char> > (_2, " ");
+  x_20 = x_4 + 1;
+
+  <bb 4> :
+  # x_4 = PHI <x_8(2), x_20(3)>
+  if (x_4 <= 9)
+    goto <bb 3>; [INV]
+  else
+    goto <bb 5>; [INV]
+
+  <bb 5> :
+  std::basic_ostream<char>::operator<< (&cout, endl);
+  std::basic_ostream<char>::operator<< (&cout, 5);
+  _12 = fib (10);
+  _3 = _12;
+  std::basic_ostream<char>::operator<< (&cout, _3);
+  _14 = 0;
+
+  <bb 6> :
+<L3>:
+  return _14;
+
+}
+
+
+
+;; Function __static_initialization_and_destruction_0 (_Z41__static_initialization_and_destruction_0ii, funcdef_no=2235, decl_uid=49118, cgraph_uid=969, symbol_order=1026)
+
+void __static_initialization_and_destruction_0 (int __initialize_p, int __priority)
+{
+  <bb 2> :
+  if (__initialize_p_2(D) == 1)
+    goto <bb 3>; [INV]
+  else
+    goto <bb 5>; [INV]
+
+  <bb 3> :
+  if (__priority_4(D) == 65535)
+    goto <bb 4>; [INV]
+  else
+    goto <bb 5>; [INV]
+
+  <bb 4> :
+  std::ios_base::Init::Init (&__ioinit);
+  __cxxabiv1::__cxa_atexit (__dt_comp , &__ioinit, &__dso_handle);
+
+  <bb 5> :
+  return;
+
+}
+
+
+
+;; Function _GLOBAL__sub_I_main (_GLOBAL__sub_I_main, funcdef_no=2236, decl_uid=49124, cgraph_uid=970, symbol_order=1145)
+
+void _GLOBAL__sub_I_main ()
+{
+  <bb 2> :
+  __static_initialization_and_destruction_0 (1, 65535);
+  return;
+
+}
+
+

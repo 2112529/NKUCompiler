@@ -1,0 +1,183 @@
+digraph "a-Test.cpp.243t.isel" {
+overlap=false;
+subgraph "cluster_main" {
+	style="dashed";
+	color="black";
+	label="main ()";
+	subgraph cluster_1731_1 {
+	style="filled";
+	color="darkgreen";
+	fillcolor="grey88";
+	label="loop 1";
+	labeljust=l;
+	penwidth=2;
+	fn_1731_basic_block_4 [shape=record,style=filled,fillcolor=lightgrey,label="{\<bb\ 4\>:\l\
+|#\ x_4\ =\ PHI\ \<x_8(2),\ x_20(3)\>\l\
+|if\ (x_4\ \<=\ 9)\l\
+\ \ goto\ \<bb\ 3\>;\ [INV]\l\
+else\l\
+\ \ goto\ \<bb\ 5\>;\ [INV]\l\
+}"];
+
+	fn_1731_basic_block_3 [shape=record,style=filled,fillcolor=lightgrey,label="{\<bb\ 3\>:\l\
+|_16\ =\ fib\ (x_4);\l\
+|_1\ =\ _16;\l\
+|_18\ =\ std::basic_ostream\<char\>::operator\<\<\ (&cout,\ _1);\l\
+|_2\ =\ _18;\l\
+|std::operator\<\<\ \<std::char_traits\<char\>\ \>\ (_2,\ \"\ \");\l\
+|x_20\ =\ x_4\ +\ 1;\l\
+}"];
+
+	}
+	fn_1731_basic_block_0 [shape=Mdiamond,style=filled,fillcolor=white,label="ENTRY"];
+
+	fn_1731_basic_block_1 [shape=Mdiamond,style=filled,fillcolor=white,label="EXIT"];
+
+	fn_1731_basic_block_2 [shape=record,style=filled,fillcolor=lightgrey,label="{\<bb\ 2\>:\l\
+|std::operator\<\<\ \<std::char_traits\<char\>\ \>\ (&cout,\ \"The\ first\ 10\ Fibonacci\ numbers\ are:\ \\n\");\l\
+|x_8\ =\ 0;\l\
+goto\ \<bb\ 4\>;\ [INV]\l\
+}"];
+
+	fn_1731_basic_block_5 [shape=record,style=filled,fillcolor=lightgrey,label="{\<bb\ 5\>:\l\
+|std::basic_ostream\<char\>::operator\<\<\ (&cout,\ endl);\l\
+|std::basic_ostream\<char\>::operator\<\<\ (&cout,\ 5);\l\
+|_12\ =\ fib\ (10);\l\
+|_3\ =\ _12;\l\
+|std::basic_ostream\<char\>::operator\<\<\ (&cout,\ _3);\l\
+|_14\ =\ 0;\l\
+}"];
+
+	fn_1731_basic_block_6 [shape=record,style=filled,fillcolor=lightgrey,label="{\<bb\ 6\>:\l\
+|\<L3\>:\l\
+|return\ _14;\l\
+}"];
+
+	fn_1731_basic_block_0:s -> fn_1731_basic_block_2:n [style="solid,bold",color=blue,weight=100,constraint=true];
+	fn_1731_basic_block_2:s -> fn_1731_basic_block_4:n [style="solid,bold",color=blue,weight=100,constraint=true];
+	fn_1731_basic_block_3:s -> fn_1731_basic_block_4:n [style="dotted,bold",color=blue,weight=10,constraint=false];
+	fn_1731_basic_block_4:s -> fn_1731_basic_block_3:n [style="solid,bold",color=black,weight=10,constraint=true];
+	fn_1731_basic_block_4:s -> fn_1731_basic_block_5:n [style="solid,bold",color=black,weight=10,constraint=true];
+	fn_1731_basic_block_5:s -> fn_1731_basic_block_6:n [style="solid,bold",color=blue,weight=100,constraint=true];
+	fn_1731_basic_block_6:s -> fn_1731_basic_block_1:n [style="solid,bold",color=black,weight=10,constraint=true];
+	fn_1731_basic_block_0:s -> fn_1731_basic_block_1:n [style="invis",constraint=true];
+}
+subgraph "cluster_fib" {
+	style="dashed";
+	color="black";
+	label="fib ()";
+	fn_1732_basic_block_0 [shape=Mdiamond,style=filled,fillcolor=white,label="ENTRY"];
+
+	fn_1732_basic_block_1 [shape=Mdiamond,style=filled,fillcolor=white,label="EXIT"];
+
+	fn_1732_basic_block_2 [shape=record,style=filled,fillcolor=lightgrey,label="{\<bb\ 2\>:\l\
+|if\ (n_7(D)\ \<=\ 0)\l\
+\ \ goto\ \<bb\ 3\>;\ [INV]\l\
+else\l\
+\ \ goto\ \<bb\ 4\>;\ [INV]\l\
+}"];
+
+	fn_1732_basic_block_3 [shape=record,style=filled,fillcolor=lightgrey,label="{\<bb\ 3\>:\l\
+|_15\ =\ 0;\l\
+|//\ predicted\ unlikely\ by\ early\ return\ (on\ trees)\ predictor.\l\
+goto\ \<bb\ 7\>;\ [INV]\l\
+}"];
+
+	fn_1732_basic_block_4 [shape=record,style=filled,fillcolor=lightgrey,label="{\<bb\ 4\>:\l\
+|if\ (n_7(D)\ ==\ 1)\l\
+\ \ goto\ \<bb\ 5\>;\ [INV]\l\
+else\l\
+\ \ goto\ \<bb\ 6\>;\ [INV]\l\
+}"];
+
+	fn_1732_basic_block_5 [shape=record,style=filled,fillcolor=lightgrey,label="{\<bb\ 5\>:\l\
+|_14\ =\ 1;\l\
+|//\ predicted\ unlikely\ by\ early\ return\ (on\ trees)\ predictor.\l\
+goto\ \<bb\ 7\>;\ [INV]\l\
+}"];
+
+	fn_1732_basic_block_6 [shape=record,style=filled,fillcolor=lightgrey,label="{\<bb\ 6\>:\l\
+|_1\ =\ n_7(D)\ +\ -1;\l\
+|_10\ =\ fib\ (_1);\l\
+|_2\ =\ _10;\l\
+|_3\ =\ n_7(D)\ +\ -2;\l\
+|_12\ =\ fib\ (_3);\l\
+|_4\ =\ _12;\l\
+|_13\ =\ _2\ +\ _4;\l\
+}"];
+
+	fn_1732_basic_block_7 [shape=record,style=filled,fillcolor=lightgrey,label="{\<bb\ 7\>:\l\
+|#\ _5\ =\ PHI\ \<_15(3),\ _14(5),\ _13(6)\>\l\
+|\<L4\>:\l\
+|return\ _5;\l\
+}"];
+
+	fn_1732_basic_block_0:s -> fn_1732_basic_block_2:n [style="solid,bold",color=blue,weight=100,constraint=true];
+	fn_1732_basic_block_2:s -> fn_1732_basic_block_3:n [style="solid,bold",color=black,weight=10,constraint=true];
+	fn_1732_basic_block_2:s -> fn_1732_basic_block_4:n [style="solid,bold",color=black,weight=10,constraint=true];
+	fn_1732_basic_block_3:s -> fn_1732_basic_block_7:n [style="solid,bold",color=blue,weight=100,constraint=true];
+	fn_1732_basic_block_4:s -> fn_1732_basic_block_5:n [style="solid,bold",color=black,weight=10,constraint=true];
+	fn_1732_basic_block_4:s -> fn_1732_basic_block_6:n [style="solid,bold",color=black,weight=10,constraint=true];
+	fn_1732_basic_block_5:s -> fn_1732_basic_block_7:n [style="solid,bold",color=blue,weight=100,constraint=true];
+	fn_1732_basic_block_6:s -> fn_1732_basic_block_7:n [style="solid,bold",color=blue,weight=100,constraint=true];
+	fn_1732_basic_block_7:s -> fn_1732_basic_block_1:n [style="solid,bold",color=black,weight=10,constraint=true];
+	fn_1732_basic_block_0:s -> fn_1732_basic_block_1:n [style="invis",constraint=true];
+}
+subgraph "cluster___static_initialization_and_destruction_0" {
+	style="dashed";
+	color="black";
+	label="__static_initialization_and_destruction_0 ()";
+	fn_2235_basic_block_0 [shape=Mdiamond,style=filled,fillcolor=white,label="ENTRY"];
+
+	fn_2235_basic_block_1 [shape=Mdiamond,style=filled,fillcolor=white,label="EXIT"];
+
+	fn_2235_basic_block_2 [shape=record,style=filled,fillcolor=lightgrey,label="{\<bb\ 2\>:\l\
+|if\ (__initialize_p_2(D)\ ==\ 1)\l\
+\ \ goto\ \<bb\ 3\>;\ [INV]\l\
+else\l\
+\ \ goto\ \<bb\ 5\>;\ [INV]\l\
+}"];
+
+	fn_2235_basic_block_3 [shape=record,style=filled,fillcolor=lightgrey,label="{\<bb\ 3\>:\l\
+|if\ (__priority_4(D)\ ==\ 65535)\l\
+\ \ goto\ \<bb\ 4\>;\ [INV]\l\
+else\l\
+\ \ goto\ \<bb\ 5\>;\ [INV]\l\
+}"];
+
+	fn_2235_basic_block_4 [shape=record,style=filled,fillcolor=lightgrey,label="{\<bb\ 4\>:\l\
+|std::ios_base::Init::Init\ (&__ioinit);\l\
+|__cxxabiv1::__cxa_atexit\ (__dt_comp\ ,\ &__ioinit,\ &__dso_handle);\l\
+}"];
+
+	fn_2235_basic_block_5 [shape=record,style=filled,fillcolor=lightgrey,label="{\<bb\ 5\>:\l\
+|return;\l\
+}"];
+
+	fn_2235_basic_block_0:s -> fn_2235_basic_block_2:n [style="solid,bold",color=blue,weight=100,constraint=true];
+	fn_2235_basic_block_2:s -> fn_2235_basic_block_3:n [style="solid,bold",color=black,weight=10,constraint=true];
+	fn_2235_basic_block_2:s -> fn_2235_basic_block_5:n [style="solid,bold",color=black,weight=10,constraint=true];
+	fn_2235_basic_block_3:s -> fn_2235_basic_block_4:n [style="solid,bold",color=black,weight=10,constraint=true];
+	fn_2235_basic_block_3:s -> fn_2235_basic_block_5:n [style="solid,bold",color=black,weight=10,constraint=true];
+	fn_2235_basic_block_4:s -> fn_2235_basic_block_5:n [style="solid,bold",color=blue,weight=100,constraint=true];
+	fn_2235_basic_block_5:s -> fn_2235_basic_block_1:n [style="solid,bold",color=black,weight=10,constraint=true];
+	fn_2235_basic_block_0:s -> fn_2235_basic_block_1:n [style="invis",constraint=true];
+}
+subgraph "cluster__GLOBAL__sub_I_main" {
+	style="dashed";
+	color="black";
+	label="_GLOBAL__sub_I_main ()";
+	fn_2236_basic_block_0 [shape=Mdiamond,style=filled,fillcolor=white,label="ENTRY"];
+
+	fn_2236_basic_block_1 [shape=Mdiamond,style=filled,fillcolor=white,label="EXIT"];
+
+	fn_2236_basic_block_2 [shape=record,style=filled,fillcolor=lightgrey,label="{\<bb\ 2\>:\l\
+|__static_initialization_and_destruction_0\ (1,\ 65535);\l\
+|return;\l\
+}"];
+
+	fn_2236_basic_block_0:s -> fn_2236_basic_block_2:n [style="solid,bold",color=blue,weight=100,constraint=true];
+	fn_2236_basic_block_2:s -> fn_2236_basic_block_1:n [style="solid,bold",color=black,weight=10,constraint=true];
+	fn_2236_basic_block_0:s -> fn_2236_basic_block_1:n [style="invis",constraint=true];
+}
+}

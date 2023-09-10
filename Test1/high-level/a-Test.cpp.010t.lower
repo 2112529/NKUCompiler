@@ -1,0 +1,93 @@
+
+;; Function main (main, funcdef_no=1731, decl_uid=44207, cgraph_uid=465, symbol_order=495)
+
+int main ()
+{
+  int x;
+  int D.49126;
+
+  std::operator<< <std::char_traits<char> > (&cout, "The first 10 Fibonacci numbers are: \n");
+  x = 0;
+  goto <D.44272>;
+  <D.44271>:
+  _1 = fib (x);
+  _2 = std::basic_ostream<char>::operator<< (&cout, _1);
+  std::operator<< <std::char_traits<char> > (_2, " ");
+  x = x + 1;
+  <D.44272>:
+  if (x <= 9) goto <D.44271>; else goto <D.44269>;
+  <D.44269>:
+  std::basic_ostream<char>::operator<< (&cout, endl);
+  std::basic_ostream<char>::operator<< (&cout, 5);
+  _3 = fib (10);
+  std::basic_ostream<char>::operator<< (&cout, _3);
+  D.49126 = 0;
+  goto <D.49127>;
+  D.49126 = 0;
+  goto <D.49127>;
+  <D.49127>:
+  return D.49126;
+}
+
+
+
+;; Function fib (_Z3fibi, funcdef_no=1732, decl_uid=44206, cgraph_uid=466, symbol_order=496)
+
+int fib (int n)
+{
+  int D.49133;
+
+  if (n <= 0) goto <D.49131>; else goto <D.49132>;
+  <D.49131>:
+  D.49133 = 0;
+  // predicted unlikely by early return (on trees) predictor.
+  goto <D.49136>;
+  <D.49132>:
+  if (n == 1) goto <D.49134>; else goto <D.49135>;
+  <D.49134>:
+  D.49133 = 1;
+  // predicted unlikely by early return (on trees) predictor.
+  goto <D.49136>;
+  <D.49135>:
+  _1 = n + -1;
+  _2 = fib (_1);
+  _3 = n + -2;
+  _4 = fib (_3);
+  D.49133 = _2 + _4;
+  goto <D.49136>;
+  <D.49136>:
+  return D.49133;
+}
+
+
+
+;; Function __static_initialization_and_destruction_0 (_Z41__static_initialization_and_destruction_0ii, funcdef_no=2235, decl_uid=49118, cgraph_uid=969, symbol_order=1026)
+
+void __static_initialization_and_destruction_0 (int __initialize_p, int __priority)
+{
+  if (__initialize_p == 1) goto <D.49139>; else goto <D.49140>;
+  <D.49139>:
+  if (__priority == 65535) goto <D.49141>; else goto <D.49142>;
+  <D.49141>:
+  std::ios_base::Init::Init (&__ioinit);
+  __cxxabiv1::__cxa_atexit (__dt_comp , &__ioinit, &__dso_handle);
+  goto <D.49143>;
+  <D.49142>:
+  <D.49143>:
+  goto <D.49144>;
+  <D.49140>:
+  <D.49144>:
+  return;
+}
+
+
+
+;; Function _GLOBAL__sub_I_main (_GLOBAL__sub_I_main, funcdef_no=2236, decl_uid=49124, cgraph_uid=970, symbol_order=1145)
+
+void _GLOBAL__sub_I_main ()
+{
+  __static_initialization_and_destruction_0 (1, 65535);
+  return;
+}
+
+
