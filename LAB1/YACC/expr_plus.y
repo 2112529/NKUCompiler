@@ -16,13 +16,20 @@ int yylex();
 extern int yyparse();
 FILE* yyin;
 void yyerror(const char* s);
+char numStr[50];
 %}
 
 //TODO:给每个符号定义一个单词类别
 %token ADD MINUS
+%token MUL DIV
+%token LPAREN RPAREN
 %token NUMBER
+%token EOL
+
 %left ADD MINUS
-%right UMINUS         
+%left MUL DIV
+%right UMINUS
+        
 
 %%
 
@@ -34,6 +41,9 @@ lines   :       lines expr ';' { printf("%f\n", $2); }
 //TODO:完善表达式的规则
 expr    :       expr ADD expr   { $$=$1+$3; }
         |       expr MINUS expr   { $$=$1-$3; }
+        |       expr MUL expr   { $$=$1*$3; }
+        |       expr DIV expr   { $$=$1/$3; }
+        |       LPAREN expr RPAREN  { $$=$2; }
         |       MINUS expr %prec UMINUS   {$$=-$2;}
         |       NUMBER  {$$=$1;}
         ;
@@ -44,20 +54,46 @@ expr    :       expr ADD expr   { $$=$1+$3; }
 
 int yylex()
 {
-    int t;
+    char t;
     while(1){
         t=getchar();
         if(t==' '||t=='\t'||t=='\n'){
-            //do noting
-        }else if(isdigit(t)){
-            //TODO:解析多位数字返回数字类型 
+            
+        }else if('0'<=t&&t<='9'){
+            printf("num process");
+            //TODO:解析多位数字返回数字类型
+            int num=0;
+            while('0'<=t&&t<='9'){
+                num=num*10+t-'0';
+                t=getchar();
+            }
+            ungetc(t,stdin);
+            yylval = num;
+            return NUMBER;
         }else if(t=='+'){
+            printf("++++++");
             return ADD;
         }else if(t=='-'){
             return MINUS;
         }//TODO:识别其他符号
+        else if(t=='*'){
+            return MUL;
+        }
+        else if(t=='/'){
+            return DIV;
+        }
+        else if(t=='('){
+            return LPAREN;
+        }
+        else if(t==')'){
+            return RPAREN;
+        }
+        else if(t==';'){
+            return EOL;
+        }
         else{
-            return t;
+            fprintf(stderr, "Unexpected character: %c\n", t);
+            exit(1);
         }
     }
 }
@@ -66,6 +102,7 @@ int main(void)
 {
     yyin=stdin;
     do{
+        printf("parsing-------");
         yyparse();
     }while(!feof(yyin));
     return 0;
