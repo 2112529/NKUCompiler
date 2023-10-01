@@ -1,9 +1,9 @@
 .PHONY: test-c,test-cpp, clean
 test-c:
-	arm-linux-gnueabihf-gcc FibTest.c -o FibTest_C -static
+	arm-linux-gnueabihf-gcc FibTest_C.S -o FibTest_C -static
 	qemu-arm ./FibTest_C
 test-cpp:
-	arm-linux-gnueabihf-g++ FibTest.cpp -o FibTest_CPP -static
+	arm-linux-gnueabihf-g++ FibTest_CPP.S -o FibTest_CPP -static
 	qemu-arm ./FibTest_CPP
 clean:
 	rm -fr *.out
