@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #define MAX_N 10  // 假设我们最多只计算到斐波那契数列的第1000项
 int memo[MAX_N];
 int fib(int n) {
