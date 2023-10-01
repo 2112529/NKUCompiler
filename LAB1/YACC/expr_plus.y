@@ -17,6 +17,8 @@ extern int yyparse();
 FILE* yyin;
 void yyerror(const char* s);
 char numStr[50];
+char postfix[1000];  // to store the postfix expression
+int postfix_index = 0;  // current index in postfix
 %}
 
 //TODO:给每个符号定义一个单词类别
@@ -47,7 +49,16 @@ expr    :       expr ADD expr   { $$=$1+$3; }
         |       MINUS expr %prec UMINUS   {$$=-$2;}
         |       NUMBER  {$$=$1;}
         ;
+//支持中缀转后缀表达式
+expr    :       expr ADD expr   { $$ = strcat($1, $3); postfix[postfix_index++] = '+'; postfix[postfix_index] = '\0'; }
+        |       expr MINUS expr { $$ = strcat($1, $3); postfix[postfix_index++] = '-'; postfix[postfix_index] = '\0'; }
+        |       expr MUL expr   { $$ = strcat($1, $3); postfix[postfix_index++] = '*'; postfix[postfix_index] = '\0'; }
+        |       expr DIV expr   { $$ = strcat($1, $3); postfix[postfix_index++] = '/'; postfix[postfix_index] = '\0'; }
+        |       LPAREN expr RPAREN  { $$ = $2; }
+        |       MINUS expr %prec UMINUS   { $$ = $2; postfix[postfix_index++] = 'u'; postfix[postfix_index] = '\0'; }  // using 'u' for unary minus
+        |       NUMBER  { $$ = $1; strcat(postfix, $1); postfix_index += strlen($1); }
 
+        ;
 %%
 
 // programs section
