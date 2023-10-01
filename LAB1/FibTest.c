@@ -1,4 +1,6 @@
 #include <stdio.h>
+#define MAX_N 10  // 假设我们最多只计算到斐波那契数列的第1000项
+int memo[MAX_N];
 int fib(int n) {
     // base case
     if (n <= 0) return 0;
@@ -10,6 +12,8 @@ int fib(int n) {
     return memo[n];
 }
 int main() {
-    cout << fib(10) << endl;
+    //memo int
+    memset(memo, -1, sizeof(memo));
+    printf("The 5th Fibonacci numbers are: %d\n", fib(5));
     return 0;
 }

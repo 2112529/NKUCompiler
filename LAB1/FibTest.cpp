@@ -14,10 +14,7 @@ int fib(int n) {
     return memo[n];
 }
 int main() {
-    cout << "The first 10 Fibonacci numbers are: \n";
-    for (int x = 0; x < 10; x++)
-        cout << fib(x) << " ";
-    cout << endl;
-    cout << fib(10) << endl;
+    cout << "The 5th Fibonacci numbers are: \n";
+    cout << fib(5) << endl;
     return 0;
 }
