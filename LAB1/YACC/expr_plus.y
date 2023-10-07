@@ -16,6 +16,7 @@ int yylex();
 extern int yyparse();
 FILE* yyin;
 void yyerror(const char* s);
+int num =0;
 char numStr[50];
 char postfix[1000];  // to store the postfix expression
 int postfix_index = 0;  // current index in postfix
@@ -25,8 +26,7 @@ int postfix_index = 0;  // current index in postfix
 %token ADD MINUS
 %token MUL DIV
 %token LPAREN RPAREN
-%token NUMBER
-%token EOL
+%token INTEGER
 
 %left ADD MINUS
 %left MUL DIV
@@ -47,18 +47,22 @@ expr    :       expr ADD expr   { $$=$1+$3; }
         |       expr DIV expr   { $$=$1/$3; }
         |       LPAREN expr RPAREN  { $$=$2; }
         |       MINUS expr %prec UMINUS   {$$=-$2;}
-        |       NUMBER  {$$=$1;}
+        |       NUMBER
         ;
 //支持中缀转后缀表达式
-expr    :       expr ADD expr   { $$ = strcat($1, $3); postfix[postfix_index++] = '+'; postfix[postfix_index] = '\0'; }
-        |       expr MINUS expr { $$ = strcat($1, $3); postfix[postfix_index++] = '-'; postfix[postfix_index] = '\0'; }
-        |       expr MUL expr   { $$ = strcat($1, $3); postfix[postfix_index++] = '*'; postfix[postfix_index] = '\0'; }
-        |       expr DIV expr   { $$ = strcat($1, $3); postfix[postfix_index++] = '/'; postfix[postfix_index] = '\0'; }
-        |       LPAREN expr RPAREN  { $$ = $2; }
-        |       MINUS expr %prec UMINUS   { $$ = $2; postfix[postfix_index++] = 'u'; postfix[postfix_index] = '\0'; }  // using 'u' for unary minus
-        |       NUMBER  { $$ = $1; strcat(postfix, $1); postfix_index += strlen($1); }
+// expr    :       expr ADD expr   { $$ = strcat($1, $3); postfix[postfix_index++] = '+'; postfix[postfix_index] = '\0'; }
+//         |       expr MINUS expr { $$ = strcat($1, $3); postfix[postfix_index++] = '-'; postfix[postfix_index] = '\0'; }
+//         |       expr MUL expr   { $$ = strcat($1, $3); postfix[postfix_index++] = '*'; postfix[postfix_index] = '\0'; }
+//         |       expr DIV expr   { $$ = strcat($1, $3); postfix[postfix_index++] = '/'; postfix[postfix_index] = '\0'; }
+//         |       LPAREN expr RPAREN  { $$ = $2; }
+//         |       MINUS expr %prec UMINUS   { $$ = $2; postfix[postfix_index++] = 'u'; postfix[postfix_index] = '\0'; }  // using 'u' for unary minus
+//         |       NUMBER  { $$ = $1; strcat(postfix, $1); postfix_index += strlen($1); }
 
+//         ;
+
+NUMBER  :       INTEGER          {$$=yylval;}
         ;
+
 %%
 
 // programs section
@@ -71,18 +75,19 @@ int yylex()
         if(t==' '||t=='\t'||t=='\n'){
             
         }else if('0'<=t&&t<='9'){
-            printf("num process");
+            // printf("num process");
             //TODO:解析多位数字返回数字类型
-            int num=0;
+            //yylval=0;
+            num =0;
             while('0'<=t&&t<='9'){
                 num=num*10+t-'0';
                 t=getchar();
             }
             ungetc(t,stdin);
             yylval = num;
-            return NUMBER;
+            return INTEGER;
         }else if(t=='+'){
-            printf("++++++");
+            //printf("++++++");
             return ADD;
         }else if(t=='-'){
             return MINUS;
@@ -99,12 +104,12 @@ int yylex()
         else if(t==')'){
             return RPAREN;
         }
-        else if(t==';'){
-            return EOL;
-        }
+        // else if(t==';'){
+        //     return EOL;
+        // }
         else{
-            fprintf(stderr, "Unexpected character: %c\n", t);
-            exit(1);
+            num=0;
+            return t;
         }
     }
 }
@@ -113,7 +118,7 @@ int main(void)
 {
     yyin=stdin;
     do{
-        printf("parsing-------");
+        //printf("parsing-------");
         yyparse();
     }while(!feof(yyin));
     return 0;
