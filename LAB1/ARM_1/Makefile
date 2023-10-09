@@ -6,4 +6,4 @@ test2:
 	arm-linux-gnueabihf-g++ -g test_2.s -o Test2 -static
 	./Test2
 clean:
-	rm -fr prime
+	rm -fr Test1 Test2
