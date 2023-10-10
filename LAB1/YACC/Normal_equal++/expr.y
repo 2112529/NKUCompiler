@@ -6,27 +6,37 @@ YACC file
 #include<stdio.h>
 #include<stdlib.h>
 #include<ctype.h>
-#ifndef YYSTYPE
-#define YYSTYPE double
-#endif
+#include<string.h>
+
 int yylex();
 extern int yyparse();
 FILE* yyin;
 void yyerror(const char* s);
 int num =0;
-char id [20];
-char idlist [20][20];
-
+char IDlist [100][20];
+double  IDval[100];
+int IDpointer;
+double GetIDVal(char* name);
+void SetIDVal(char* name, double value);
 
 %}
+
+%union {
+    double val;
+    char* str;
+}
 
 //TODO:给每个符号定义一个单词类别
 %token ADD MINUS
 %token MUL DIV
 %token LPAREN RPAREN
 %token  EQ
-%token ID
-%token INTEGER
+%token <str> ID
+%token <val> INTEGER
+
+%type <val> expr
+%type <val> lines
+
 
 %left ADD MINUS
 %left MUL DIV
@@ -37,11 +47,10 @@ char idlist [20][20];
 
 
 lines   :       lines expr ';' { printf("%f\n", $2); }
+        |       lines ID EQ expr ';' { SetIDVal($2, $4); printf("%f\n", $4); free($2); }
         |       lines ';'
-        |
+        |       { $$ = 0; }
         ;
-
-LEFTVARIABLE EQUAL expr {$$=$3;idval[equalid[equalnum-1]]=$3;equalnum-=1;}
 //TODO:完善表达式的规则
 expr    :       expr ADD expr   { $$=$1+$3; }
         |       expr MINUS expr   { $$=$1-$3; }
@@ -49,13 +58,10 @@ expr    :       expr ADD expr   { $$=$1+$3; }
         |       expr DIV expr   { $$=$1/$3; }
         |       LPAREN expr RPAREN  { $$=$2; }
         |       MINUS expr %prec UMINUS   {$$=-$2;}
-        |       ID EQ expr  { $$=$3;idval[equalid[equalnum-1]]=$3;equalnum-=1; }
-        |       ID  { $$=num; }
-        |       NUMBER
+        |       ID { $$ = GetIDVal($1); free($1); }
+        |       INTEGER { $$ = $1; }
         ;
 
-NUMBER  :       INTEGER          {$$=yylval;}
-        ;
 
 %%
 
@@ -78,29 +84,27 @@ int yylex()
                 t=getchar();
             }
             ungetc(t,stdin);
-            yylval = num;
+            yylval.val = num;
             return INTEGER;
         }
         else if(('a'<=t&&t<='z')||('A'<=t&&t<='Z')||t=='_'){
-            id[0]='\0';
-            while(isdigit(t) || isalpha(t)){
-                char temp[2] = {t,'\0'};
-                strcat(id,temp);
-                t = getchar();
+            int charpointer=0;
+            // IDval[charpointer]=t;
+            // t=getchar();
+            while(('a'<=t&&t<='z')||('A'<=t&&t<='Z')||('0'<=t&&t<='9')||t=='_'){
+                IDlist[IDpointer][charpointer]=t;
+                charpointer++;
+                t=getchar();
             }
-            for(idnow = 1;idnow<=idnum;idnow++){
-                if(strcmp(idlist[idnow],strval)==0){
-                    break;
-                }
-            }
-            strcpy(idlist[idnow],id);
-            
-
-
             ungetc(t,stdin);
-            return ID;
+            //IDlist[IDpointer][charpointer]='\0';
+            char* tempID = (char*)malloc(charpointer + 1);
+            strncpy(tempID, IDlist[IDpointer], charpointer);
+            tempID[charpointer] = '\0';
+            yylval.str = tempID;
 
-        }
+            //yylval.str=IDlist[IDpointer];
+            return ID;
         }else if(t=='+'){
             //printf("++++++");
             return ADD;
@@ -122,28 +126,31 @@ int yylex()
         else if (t=='='){
             return EQ;
         }
-        else if(t=='<'){
-            return LT;
-        }
-        else if(t=='>'){
-            return GT;
-        }
-        else if(t=='!'){
-            return NE;
-        }
-        else if(t=='&'){
-            return AND;
-        }
-        else if(t=='|'){
-            return OR;
-        // else if(t==';'){
-        //     return EOL;
-        // }
         else{
             num=0;
             return t;
         }
     }
+}
+double GetIDVal(char* name) {
+    for(int i = 0; i < IDpointer; i++) {
+        if(strcmp(IDlist[i], name) == 0) {
+            return IDval[i];
+        }
+    }
+    return 0.0; // 未赋值的变量取0
+}
+
+void SetIDVal(char* name, double value) {
+    for(int i = 0; i < IDpointer; i++) {
+        if(strcmp(IDlist[i], name) == 0) {
+            IDval[i] = value;
+            return;
+        }
+    }
+    strcpy(IDlist[IDpointer], name);
+    IDval[IDpointer] = value;
+    IDpointer++;
 }
 
 int main(void)
