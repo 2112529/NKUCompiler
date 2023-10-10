@@ -18,6 +18,9 @@ double  IDval[100];
 int IDpointer;
 double GetIDVal(char* name);
 void SetIDVal(char* name, double value);
+int temp_counter = 1;
+
+
 
 %}
 
@@ -47,25 +50,37 @@ void SetIDVal(char* name, double value);
 
 
 lines   :       lines expr ';' { printf("%f\n", $2); }
-        |       lines ID EQ expr ';' { SetIDVal($2, $4); printf("%f\n", $4); free($2); }
+        |       lines ID EQ expr ';' { emit("STORE %s %s\n", $2, $4); SetIDVal($2, $4); free($2); free($4); }
         |       lines ';'
-        |       { $$ = 0; }
+        |       { $$ = strdup(""); }
         ;
-//TODO:完善表达式的规则
-expr    :       expr ADD expr   { $$=$1+$3; }
-        |       expr MINUS expr   { $$=$1-$3; }
-        |       expr MUL expr   { $$=$1*$3; }
-        |       expr DIV expr   { $$=$1/$3; }
-        |       LPAREN expr RPAREN  { $$=$2; }
-        |       MINUS expr %prec UMINUS   {$$=-$2;}
-        |       ID { $$ = GetIDVal($1); free($1); }
-        |       INTEGER { $$ = $1; }
+
+expr    :       expr ADD expr   { $$ = new_temp(); emit("ADD %s %s %s\n", $$, $1, $3); free($1); free($3); }
+        |       expr MINUS expr { $$ = new_temp(); emit("SUB %s %s %s\n", $$, $1, $3); free($1); free($3); }
+        |       expr MUL expr   { $$ = new_temp(); emit("MUL %s %s %s\n", $$, $1, $3); free($1); free($3); }
+        |       expr DIV expr   { $$ = new_temp(); emit("DIV %s %s %s\n", $$, $1, $3); free($1); free($3); }
+        |       LPAREN expr RPAREN  { $$ = $2; }
+        |       MINUS expr %prec UMINUS   { $$ = new_temp(); emit("NEG %s %s\n", $$, $2); free($2); }
+        |       ID { $$ = strdup($1); free($1); }
+        |       INTEGER { $$ = new_temp(); emit("LOAD %s %f\n", $$, $1); }
         ;
+
 
 
 %%
 
 // programs section
+void emit(const char* format, ...) {
+    va_list args;
+    va_start(args, format);
+    vfprintf(stdout, format, args);
+    va_end(args);
+}
+char* new_temp() {
+    char buffer[10];
+    snprintf(buffer, sizeof(buffer), "t%d", temp_counter++);
+    return strdup(buffer);
+}
 
 int yylex()
 {
@@ -138,7 +153,7 @@ double GetIDVal(char* name) {
             return IDval[i];
         }
     }
-    return 0.0; 
+    return 0.0; // 未赋值的变量取0
 }
 
 void SetIDVal(char* name, double value) {

@@ -17,9 +17,7 @@ extern int yyparse();
 FILE* yyin;
 void yyerror(const char* s);
 int num =0;
-char numStr[50];
-char postfix[1000];  // to store the postfix expression
-int postfix_index = 0;  // current index in postfix
+
 %}
 
 //TODO:给每个符号定义一个单词类别
