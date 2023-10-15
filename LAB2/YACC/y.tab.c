@@ -1433,7 +1433,7 @@ int yylex()
 {
     char t;
     while(1){
-        t=getchar();
+        t=fgetc(yyin);
         if(t==' '||t=='\t'||t=='\n'){
             
         }else if('0'<=t&&t<='9'){
@@ -1443,9 +1443,9 @@ int yylex()
             num =0;
             while('0'<=t&&t<='9'){
                 num=num*10+t-'0';
-                t=getchar();
+                t=fgetc(yyin);
             }
-            ungetc(t,stdin);
+            ungetc(t,yyin);
             yylval.val = num;
             return INTEGER;
         }
@@ -1456,9 +1456,9 @@ int yylex()
             while(('a'<=t&&t<='z')||('A'<=t&&t<='Z')||('0'<=t&&t<='9')||t=='_'){
                 IDlist[IDpointer][charpointer]=t;
                 charpointer++;
-                t=getchar();
+                t=fgetc(yyin);
             }
-            ungetc(t,stdin);
+            ungetc(t,yyin);
             //IDlist[IDpointer][charpointer]='\0';
             char* tempID = (char*)malloc(charpointer + 1);
             strncpy(tempID, IDlist[IDpointer], charpointer);
