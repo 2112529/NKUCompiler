@@ -7,6 +7,8 @@
 #include<string>
 #include<variant>
 #include<iostream>
+#include<fstream>
+#include<string>
 }
 
 %{
@@ -14,13 +16,19 @@ int chars=0,words=0,lines=0;
 int current_column = 0;
 const int N =10000;
 int arrnum=0;
-
+std::string idtable[N];//存储全部的符号
+int idnum = 0;
+enum Context {
+    NONE,
+    DECLARATION
+} currentContext = NONE;
 // 符号表项结构
 struct SymbolTableEntry {
     std::string word;            // 单词
     std::string lexeme;          // 词素
     int line_number;             // 行号
     int column_number;           // 列号
+    std::string * ptr ;//符号表指针
    // SymbolTableEntry* attribute;  // 属性
     // 在此可以添加其他属性，如类型、值等。
 };
@@ -29,12 +37,14 @@ struct output{
     std::string lexeme;          // 词素
     int line_number;             // 行号
     int column_number;           // 列号
-    std::variant<float,SymbolTableEntry*> attribute;  // 属性
+    std::variant<float,SymbolTableEntry*,std::string*,char*,int> attribute;  // 属性
 }arr[N];
 
 // 符号表类
 class SymbolTable {
 public:
+    SymbolTable() = default; 
+    SymbolTable(const SymbolTable& other) : table(other.table) {}
     // 插入一个新的词素及其符号表项
     void insert(std::string lexeme, SymbolTableEntry entry) {
         table[lexeme] = entry;
@@ -175,11 +185,6 @@ VOLATILE    volatile
 
 
 
-
-
-
-
-
 EQ      ==
 NEQ     !=
 LT      <
@@ -187,44 +192,308 @@ LE      <=
 GT      >
 GE      >=
 
+ASSIGN           "="
+PLUSASSIGN       "+="
+MINUSASSIGN      "-="
+MULTASSIGN       "*="
+DIVASSIGN        "/="
+MODASSIGN        "%="
+ANDASSIGN        "&="
+ORASSIGN         "|="
+XORASSIGN        "^="
+LSHIFTASSIGN     "<<="
+RSHIFTASSIGN     ">>="
+INCREMENT        "++"
+DECREMENT        "--"
+BITAND           "&"
+BITOR            "|"
+BITXOR           "^"
+BITNOT           "~"
+MODULO           "%"
+LSHIFT           "<<"
+RSHIFT           ">>"
+LOGAND           "&&"
+LOGOR            "||"
+NOT              "!"
+
+
+
+
+
+onelinecommentbegin "//"
+onelinecommentelement "."
+onelinecommentend "\n"
+%x ONELINECOMMENT
+commentbegin "/*"
+commentelement .|\n
+commentend "*/"
+%x COMMENT
+
+
 %%
-{ALIGNAS}     {fprintf(yyout, "TOKEN: ALIGNAS, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
-{ALIGNOF}     {fprintf(yyout, "TOKEN: ALIGNOF, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
-{ASM}         {fprintf(yyout, "TOKEN: ASM, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
-{AUTO}        {fprintf(yyout, "TOKEN: AUTO, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
-{BOOL}        {fprintf(yyout, "TOKEN: BOOL, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
-{BREAK}       {fprintf(yyout, "TOKEN: BREAK, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
-{CASE}        {fprintf(yyout, "TOKEN: CASE, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
-{CATCH}       {fprintf(yyout, "TOKEN: CATCH, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
-{CHAR}        {fprintf(yyout, "TOKEN: CHAR, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
-{CHAR8_T}     {fprintf(yyout, "TOKEN: CHAR8_T, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
-{CHAR16_T}    {fprintf(yyout, "TOKEN: CHAR16_T, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
-{CHAR32_T}    {fprintf(yyout, "TOKEN: CHAR32_T, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
-{CLASS}       {fprintf(yyout, "TOKEN: CLASS, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
-{CONST}       {fprintf(yyout, "TOKEN: CONST, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
-{CONSTEXPR}   {fprintf(yyout, "TOKEN: CONSTEXPR, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
-{CONST_CAST}  {fprintf(yyout, "TOKEN: CONST_CAST, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
-{CONTINUE}    {fprintf(yyout, "TOKEN: CONTINUE, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
-{DECLTYPE}    {fprintf(yyout, "TOKEN: DECLTYPE, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
-{DEFAULT}     {fprintf(yyout, "TOKEN: DEFAULT, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
-{DELETE}      {fprintf(yyout, "TOKEN: DELETE, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
-{DO}          {fprintf(yyout, "TOKEN: DO, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
-{DOUBLE}      {fprintf(yyout, "TOKEN: DOUBLE, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
-{DYNAMIC_CAST} {fprintf(yyout, "TOKEN: DYNAMIC_CAST, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+{ALIGNOF} { 
+    fprintf(yyout, "TOKEN: ALIGNOF, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); 
+    current_column += strlen(yytext);
+    arr[arrnum].word="ALIGNOF";
+    arr[arrnum].lexeme=yytext;
+    arr[arrnum].column_number=current_column;
+    arr[arrnum].line_number=lines;
+    arrnum++;
+}
+{ASM}         {
+    fprintf(yyout, "TOKEN: ASM, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); 
+    current_column += strlen(yytext);
+    arr[arrnum].word="ASM";
+    arr[arrnum].lexeme=yytext;
+    arr[arrnum].column_number=current_column;
+    arr[arrnum].line_number=lines;
+    arrnum++;
+}
+{AUTO}        {
+    fprintf(yyout, "TOKEN: AUTO, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); 
+    current_column += strlen(yytext);
+    arr[arrnum].word="AUTO";
+    arr[arrnum].lexeme=yytext;
+    arr[arrnum].column_number=current_column;
+    arr[arrnum].line_number=lines;
+    arrnum++;
+}
+
+{BOOL}        {
+    currentContext = DECLARATION;
+    fprintf(yyout, "TOKEN: BOOL, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); 
+    arr[arrnum].word="BOOL";
+    arr[arrnum].lexeme=yytext;
+    arr[arrnum].column_number=current_column;
+    arr[arrnum].line_number=lines;
+    current_column += strlen(yytext);
+    arrnum++;
+}
+
+{BREAK}       {
+    fprintf(yyout, "TOKEN: BREAK, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); 
+    arr[arrnum].word="BREAK";
+    arr[arrnum].lexeme=yytext;
+    arr[arrnum].column_number=current_column;
+    arr[arrnum].line_number=lines;
+    current_column += strlen(yytext);
+    arrnum++;
+}
+
+{CASE}        {
+    fprintf(yyout, "TOKEN: CASE, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); 
+    arr[arrnum].word="CASE";
+    arr[arrnum].lexeme=yytext;
+    arr[arrnum].column_number=current_column;
+    arr[arrnum].line_number=lines;
+    current_column += strlen(yytext);
+    arrnum++;
+}
+
+{CATCH}       {
+    fprintf(yyout, "TOKEN: CATCH, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); 
+    arr[arrnum].word="CATCH";
+    arr[arrnum].lexeme=yytext;
+    arr[arrnum].column_number=current_column;
+    arr[arrnum].line_number=lines;
+    current_column += strlen(yytext);
+    arrnum++;
+}
+
+{CHAR}        {
+    currentContext = DECLARATION;
+    fprintf(yyout, "TOKEN: CHAR, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); 
+    arr[arrnum].word="CHAR";
+    arr[arrnum].lexeme=yytext;
+    arr[arrnum].column_number=current_column;
+    arr[arrnum].line_number=lines;
+    current_column += strlen(yytext);
+    arrnum++;
+}
+
+{CHAR8_T}     {
+    currentContext = DECLARATION;
+    fprintf(yyout, "TOKEN: CHAR8_T, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); 
+    arr[arrnum].word="CHAR8_T";
+    arr[arrnum].lexeme=yytext;
+    arr[arrnum].column_number=current_column;
+    arr[arrnum].line_number=lines;
+    current_column += strlen(yytext);
+    arrnum++;
+}
+
+{CHAR16_T}    {
+    currentContext = DECLARATION;
+    fprintf(yyout, "TOKEN: CHAR16_T, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); 
+    arr[arrnum].word="CHAR16_T";
+    arr[arrnum].lexeme=yytext;
+    arr[arrnum].column_number=current_column;
+    arr[arrnum].line_number=lines;
+    current_column += strlen(yytext);
+    arrnum++;
+}
+
+{CHAR32_T}    {
+    currentContext = DECLARATION;
+    fprintf(yyout, "TOKEN: CHAR32_T, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); 
+    arr[arrnum].word="CHAR32_T";
+    arr[arrnum].lexeme=yytext;
+    arr[arrnum].column_number=current_column;
+    arr[arrnum].line_number=lines;
+    current_column += strlen(yytext);
+    arrnum++;
+}
+{CLASS}       {
+    fprintf(yyout, "TOKEN: CLASS, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); 
+    current_column += strlen(yytext);
+    arr[arrnum].word = "CLASS";
+    arr[arrnum].lexeme = yytext;
+    arr[arrnum].column_number = current_column;
+    arr[arrnum].line_number = lines;
+    arrnum++;
+}
+
+{CONST}       {
+    fprintf(yyout, "TOKEN: CONST, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); 
+    current_column += strlen(yytext);
+    arr[arrnum].word = "CONST";
+    arr[arrnum].lexeme = yytext;
+    arr[arrnum].column_number = current_column;
+    arr[arrnum].line_number = lines;
+    arrnum++;
+}
+
+{CONSTEXPR}   {
+    fprintf(yyout, "TOKEN: CONSTEXPR, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); 
+    current_column += strlen(yytext);
+    arr[arrnum].word = "CONSTEXPR";
+    arr[arrnum].lexeme = yytext;
+    arr[arrnum].column_number = current_column;
+    arr[arrnum].line_number = lines;
+    arrnum++;
+}
+
+{CONST_CAST}  {
+    fprintf(yyout, "TOKEN: CONST_CAST, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); 
+    current_column += strlen(yytext);
+    arr[arrnum].word = "CONST_CAST";
+    arr[arrnum].lexeme = yytext;
+    arr[arrnum].column_number = current_column;
+    arr[arrnum].line_number = lines;
+    arrnum++;
+}
+
+{CONTINUE}    {
+    fprintf(yyout, "TOKEN: CONTINUE, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); 
+    current_column += strlen(yytext);
+    arr[arrnum].word = "CONTINUE";
+    arr[arrnum].lexeme = yytext;
+    arr[arrnum].column_number = current_column;
+    arr[arrnum].line_number = lines;
+    arrnum++;
+}
+
+{DECLTYPE}    {
+    fprintf(yyout, "TOKEN: DECLTYPE, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); 
+    current_column += strlen(yytext);
+    arr[arrnum].word = "DECLTYPE";
+    arr[arrnum].lexeme = yytext;
+    arr[arrnum].column_number = current_column;
+    arr[arrnum].line_number = lines;
+    arrnum++;
+}
+
+{DEFAULT}     {
+    fprintf(yyout, "TOKEN: DEFAULT, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); 
+
+    arr[arrnum].word = "DEFAULT";
+    arr[arrnum].lexeme = yytext;
+    arr[arrnum].column_number = current_column;
+    arr[arrnum].line_number = lines;
+    arrnum++;
+        current_column += strlen(yytext);
+}
+
+{DELETE}      {
+    fprintf(yyout, "TOKEN: DELETE, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); 
+
+    arr[arrnum].word = "DELETE";
+    arr[arrnum].lexeme = yytext;
+    arr[arrnum].column_number = current_column;
+    arr[arrnum].line_number = lines;
+    arrnum++;
+        current_column += strlen(yytext);
+}
+
+{DO}          {
+    fprintf(yyout, "TOKEN: DO, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); 
+    
+    arr[arrnum].word = "DO";
+    arr[arrnum].lexeme = yytext;
+    arr[arrnum].column_number = current_column;
+    arr[arrnum].line_number = lines;
+    arrnum++;
+    current_column += strlen(yytext);
+}
+
+{DOUBLE}      {
+    currentContext = DECLARATION;
+    fprintf(yyout, "TOKEN: DOUBLE, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); 
+    
+    arr[arrnum].word = "DOUBLE";
+    arr[arrnum].lexeme = yytext;
+    arr[arrnum].column_number = current_column;
+    arr[arrnum].line_number = lines;
+    arrnum++;
+    current_column += strlen(yytext);
+}
+
+{DYNAMIC_CAST} {
+    fprintf(yyout, "TOKEN: DYNAMIC_CAST, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); 
+
+    arr[arrnum].word = "DYNAMIC_CAST";
+    arr[arrnum].lexeme = yytext;
+    arr[arrnum].column_number = current_column;
+    arr[arrnum].line_number = lines;
+    arrnum++;
+        current_column += strlen(yytext);
+}
+
+
+
+
 {ELSE}        {fprintf(yyout, "TOKEN: ELSE, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 {ENUM}        {fprintf(yyout, "TOKEN: ENUM, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 {EXPLICIT}    {fprintf(yyout, "TOKEN: EXPLICIT, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 {EXPORT}      {fprintf(yyout, "TOKEN: EXPORT, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 {EXTERN}      {fprintf(yyout, "TOKEN: EXTERN, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 {FALSE}       {fprintf(yyout, "TOKEN: FALSE, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
-{FLOAT}       {fprintf(yyout, "TOKEN: FLOAT, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+{FLOAT}       {currentContext = DECLARATION;fprintf(yyout, "TOKEN: FLOAT, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 {FOR}         {fprintf(yyout, "TOKEN: FOR, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 {FRIEND}      {fprintf(yyout, "TOKEN: FRIEND, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 {GOTO}        {fprintf(yyout, "TOKEN: GOTO, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
-{IF}          {fprintf(yyout, "TOKEN: IF, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+{IF}          {
+    
+    arr[arrnum].word = "IF";
+    arr[arrnum].lexeme = yytext;
+    arr[arrnum].column_number = current_column;
+    arr[arrnum].line_number = lines;
+    arrnum++;
+    fprintf(yyout, "TOKEN: IF, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);
+    current_column += strlen(yytext);
+    }
 {INLINE}      {fprintf(yyout, "TOKEN: INLINE, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
-{INT}         {fprintf(yyout, "TOKEN: INT, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
-{LONG}        {fprintf(yyout, "TOKEN: LONG, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+{INT}         {
+   
+    arr[arrnum].word = "INT";
+    arr[arrnum].lexeme = yytext;
+    arr[arrnum].column_number = current_column;
+    arr[arrnum].line_number = lines;
+    arrnum++;
+    currentContext = DECLARATION;fprintf(yyout, "TOKEN: INT, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);
+    current_column += strlen(yytext);
+    }
+{LONG}        {currentContext = DECLARATION;fprintf(yyout, "TOKEN: LONG, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 {MUTABLE}     {fprintf(yyout, "TOKEN: MUTABLE, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 {NAMESPACE}   {fprintf(yyout, "TOKEN: NAMESPACE, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 {NEW}         {fprintf(yyout, "TOKEN: NEW, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
@@ -237,8 +506,14 @@ GE      >=
 {REGISTER}    {fprintf(yyout, "TOKEN: REGISTER, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 {REINTERPRET_CAST} {fprintf(yyout, "TOKEN: REINTERPRET_CAST, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 {REQUIRES}    {fprintf(yyout, "TOKEN: REQUIRES, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
-{RETURN}      {fprintf(yyout, "TOKEN: RETURN, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
-{SHORT}       {fprintf(yyout, "TOKEN: SHORT, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+{RETURN}      {
+    arr[arrnum].word = "RETURN";
+    arr[arrnum].lexeme = yytext;
+    arr[arrnum].column_number = current_column;
+    arr[arrnum].line_number = lines;
+    arrnum++;
+    fprintf(yyout, "TOKEN: RETURN, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+{SHORT}       {currentContext = DECLARATION;fprintf(yyout, "TOKEN: SHORT, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 {SIGNED}      {fprintf(yyout, "TOKEN: SIGNED, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 {SIZEOF}      {fprintf(yyout, "TOKEN: SIZEOF, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 {STATIC}      {fprintf(yyout, "TOKEN: STATIC, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
@@ -265,16 +540,52 @@ GE      >=
 
 
 
+{ASSIGN}          { fprintf(yyout, "TOKEN: ASSIGN, LEXEME: %s, ATTRIBUTE: Assignment Operator\n", yytext); current_column += strlen(yytext); }
+{PLUSASSIGN}      { fprintf(yyout, "TOKEN: PLUSASSIGN, LEXEME: %s, ATTRIBUTE: Plus Assignment Operator\n", yytext); current_column += strlen(yytext); }
+{MINUSASSIGN}     { fprintf(yyout, "TOKEN: MINUSASSIGN, LEXEME: %s, ATTRIBUTE: Minus Assignment Operator\n", yytext); current_column += strlen(yytext); }
+{MULTASSIGN}      { fprintf(yyout, "TOKEN: MULTASSIGN, LEXEME: %s, ATTRIBUTE: Multiplication Assignment Operator\n", yytext); current_column += strlen(yytext); }
+{DIVASSIGN}       { fprintf(yyout, "TOKEN: DIVASSIGN, LEXEME: %s, ATTRIBUTE: Division Assignment Operator\n", yytext); current_column += strlen(yytext); }
+{MODASSIGN}       { fprintf(yyout, "TOKEN: MODASSIGN, LEXEME: %s, ATTRIBUTE: Modulo Assignment Operator\n", yytext); current_column += strlen(yytext); }
+{ANDASSIGN}       { fprintf(yyout, "TOKEN: ANDASSIGN, LEXEME: %s, ATTRIBUTE: And Assignment Operator\n", yytext); current_column += strlen(yytext); }
+{ORASSIGN}        { fprintf(yyout, "TOKEN: ORASSIGN, LEXEME: %s, ATTRIBUTE: Or Assignment Operator\n", yytext); current_column += strlen(yytext); }
+{XORASSIGN}       { fprintf(yyout, "TOKEN: XORASSIGN, LEXEME: %s, ATTRIBUTE: Xor Assignment Operator\n", yytext); current_column += strlen(yytext); }
+{LSHIFTASSIGN}    { fprintf(yyout, "TOKEN: LSHIFTASSIGN, LEXEME: %s, ATTRIBUTE: Left Shift Assignment Operator\n", yytext); current_column += strlen(yytext); }
+{RSHIFTASSIGN}    { fprintf(yyout, "TOKEN: RSHIFTASSIGN, LEXEME: %s, ATTRIBUTE: Right Shift Assignment Operator\n", yytext); current_column += strlen(yytext); }
+{INCREMENT}       { fprintf(yyout, "TOKEN: INCREMENT, LEXEME: %s, ATTRIBUTE: Increment Operator\n", yytext); current_column += strlen(yytext); }
+{DECREMENT}       { fprintf(yyout, "TOKEN: DECREMENT, LEXEME: %s, ATTRIBUTE: Decrement Operator\n", yytext); current_column += strlen(yytext); }
+{BITAND}          { fprintf(yyout, "TOKEN: BITAND, LEXEME: %s, ATTRIBUTE: Bitwise And Operator\n", yytext); current_column += strlen(yytext); }
+{BITOR}           { fprintf(yyout, "TOKEN: BITOR, LEXEME: %s, ATTRIBUTE: Bitwise Or Operator\n", yytext); current_column += strlen(yytext); }
+{BITXOR}          { fprintf(yyout, "TOKEN: BITXOR, LEXEME: %s, ATTRIBUTE: Bitwise Xor Operator\n", yytext); current_column += strlen(yytext); }
+{BITNOT}          { fprintf(yyout, "TOKEN: BITNOT, LEXEME: %s, ATTRIBUTE: Bitwise Not Operator\n", yytext); current_column += strlen(yytext); }
+{MODULO}          { fprintf(yyout, "TOKEN: MODULO, LEXEME: %s, ATTRIBUTE: Modulo Operator\n", yytext); current_column += strlen(yytext); }
+{LSHIFT}          { fprintf(yyout, "TOKEN: LSHIFT, LEXEME: %s, ATTRIBUTE: Left Shift Operator\n", yytext); current_column += strlen(yytext); }
+{RSHIFT}          { fprintf(yyout, "TOKEN: RSHIFT, LEXEME: %s, ATTRIBUTE: Right Shift Operator\n", yytext); current_column += strlen(yytext); }
+{LOGAND}          { fprintf(yyout, "TOKEN: LOGAND, LEXEME: %s, ATTRIBUTE: Logical And Operator\n", yytext); current_column += strlen(yytext); }
+{LOGOR}           { fprintf(yyout, "TOKEN: LOGOR, LEXEME: %s, ATTRIBUTE: Logical Or Operator\n", yytext); current_column += strlen(yytext); }
+{NOT}             { fprintf(yyout, "TOKEN: NOT, LEXEME: %s, ATTRIBUTE: Not Operator\n", yytext); current_column += strlen(yytext); }
+
 
 {EQ}    { fprintf(yyout, "TOKEN: EQ, LEXEME: %s, ATTRIBUTE: Equality Operator\n", yytext); current_column += strlen(yytext);}
 {NEQ}   { fprintf(yyout, "TOKEN: NEQ, LEXEME: %s, ATTRIBUTE: Not Equal Operator\n", yytext);current_column += strlen(yytext); }
-{LT}    { fprintf(yyout, "TOKEN: LT, LEXEME: %s, ATTRIBUTE: Less Than Operator\n", yytext);current_column += strlen(yytext); }
+{LT}    { 
+    arr[arrnum].word = "LT";
+    arr[arrnum].lexeme = yytext;
+    arr[arrnum].column_number = current_column;
+    arr[arrnum].line_number = lines;
+    arrnum++;
+    fprintf(yyout, "TOKEN: LT, LEXEME: %s, ATTRIBUTE: Less Than Operator\n", yytext);current_column += strlen(yytext); }
 {LE}    { fprintf(yyout, "TOKEN: LE, LEXEME: %s, ATTRIBUTE: Less Than or Equal Operator\n", yytext);current_column += strlen(yytext); }
 {GT}    { fprintf(yyout, "TOKEN: GT, LEXEME: %s, ATTRIBUTE: Greater Than Operator\n", yytext);current_column += strlen(yytext); }
 {GE}    { fprintf(yyout, "TOKEN: GE, LEXEME: %s, ATTRIBUTE: Greater Than or Equal Operator\n", yytext); current_column += strlen(yytext);}
 
 {DEC} {
     int value = strtol(yytext, NULL, 10);
+    arr[arrnum].word = "DEC";
+    arr[arrnum].lexeme = yytext;
+    arr[arrnum].column_number = current_column;
+    arr[arrnum].line_number = lines;
+    arr[arrnum].attribute=value;
+    arrnum++;
     fprintf(yyout, "TOKEN: INT_CONST, LEXEME: %s, ATTRIBUTE: %d\n", yytext, value);
     words++;
     chars += strlen(yytext);
@@ -317,16 +628,30 @@ GE      >=
     if (!symbolTableStack.empty()) {
         entry = symbolTableStack.top().lookup(yytext);  // 查找当前符号表中的词素
     }
-
+    std::string * ptr;
+    int flag = 0;
+    for(int i=0;i<idnum;i++){
+        if(idtable[i]==yytext){
+            ptr=&(idtable[i]);
+            flag = 1;
+        }
+    }
+    if(flag == 0){
+        idtable[idnum] = yytext;
+        idnum++;
+        ptr = &(idtable[idnum-1]);
+    }
+    SymbolTableEntry newEntry;
     if (!entry) {
         // 如果词素不存在，创建新的符号表项并插入
-        SymbolTableEntry newEntry;
+
         newEntry.word = yytext;           // 单词也被设置为yytext
         newEntry.lexeme = yytext;
         newEntry.line_number = yylineno;  // 使用yylineno来获取当前的行号
         newEntry.column_number = current_column;
+        newEntry.ptr=ptr;
         entry = &newEntry;
-
+      //  fprintf(yyout,"newonecreated\n");
         if (!symbolTableStack.empty()) {
             symbolTableStack.top().insert(yytext, newEntry);
         }
@@ -335,22 +660,28 @@ GE      >=
     arr[arrnum].lexeme=yytext;
     arr[arrnum].column_number=current_column;
     arr[arrnum].line_number=lines;
-    arr[arrnum].attribute=entry;
+    arr[arrnum].attribute=ptr;
     arrnum++;
-    fprintf(yyout, "TOKEN: ID, LEXEME: %s, column_number:%d,ATTRIBUTE: %p \n", yytext,current_column,entry);
+    fprintf(yyout, "TOKEN: ID, LEXEME: %s, column_number:%d,ATTRIBUTE: %p \n", yytext,current_column,ptr);
     words++;
     current_column += strlen(yytext);
     chars += strlen(yytext);
 }
 
 
+{onelinecommentbegin}.*\n { BEGIN(INITIAL); }
 
+
+{commentbegin} {BEGIN COMMENT;}
+<COMMENT>{commentelement} {}
+<COMMENT>{commentend} {BEGIN INITIAL;}
 
 
 "{"     {
     SymbolTable newTable;
     symbolTableStack.push(newTable);
     fprintf(yyout, "TOKEN: LBRACE, LEXEME: %s, ATTRIBUTE: Left Brace\n", yytext);
+    current_column += strlen(yytext);
 }
 
 "}"     {
@@ -358,11 +689,40 @@ GE      >=
         symbolTableStack.pop();
     }
     fprintf(yyout, "TOKEN: RBRACE, LEXEME: %s, ATTRIBUTE: Right Brace\n", yytext);
+    current_column += strlen(yytext);
 }
-";"     { fprintf(yyout, "TOKEN: SEMICOLON, LEXEME: %s, ATTRIBUTE: Semicolon\n", yytext);current_column += strlen(yytext); }
-"("     { fprintf(yyout, "TOKEN: LPAREN, LEXEME: %s, ATTRIBUTE: Left Parenthesis\n", yytext); current_column += strlen(yytext);}
-")"     { fprintf(yyout, "TOKEN: RPAREN, LEXEME: %s, ATTRIBUTE: Right Parenthesis\n", yytext); current_column += strlen(yytext);}
-"+"     { fprintf(yyout, "TOKEN: PLUS, LEXEME: %s, ATTRIBUTE: Addition Operator\n", yytext); current_column += strlen(yytext);}
+";"     { 
+    arr[arrnum].word = "SEMICOLON";
+    arr[arrnum].lexeme = yytext;
+    arr[arrnum].column_number = current_column;
+    arr[arrnum].line_number = lines;
+    arrnum++;
+    currentContext = NONE;fprintf(yyout, "TOKEN: SEMICOLON, LEXEME: %s, ATTRIBUTE: Semicolon\n", yytext);
+    current_column += strlen(yytext); }
+"("     {
+    arr[arrnum].word = "LPAREN";
+    arr[arrnum].lexeme = yytext;
+    arr[arrnum].column_number = current_column;
+    arr[arrnum].line_number = lines;
+    arrnum++;
+    currentContext = NONE; fprintf(yyout, "TOKEN: LPAREN, LEXEME: %s, ATTRIBUTE: Left Parenthesis\n", yytext); 
+    current_column += strlen(yytext);}
+")"     { 
+    arr[arrnum].word = "RPAREN";
+    arr[arrnum].lexeme = yytext;
+    arr[arrnum].column_number = current_column;
+    arr[arrnum].line_number = lines;
+    arrnum++;
+    fprintf(yyout, "TOKEN: RPAREN, LEXEME: %s, ATTRIBUTE: Right Parenthesis\n", yytext); 
+    current_column += strlen(yytext);}
+"+"     { 
+    arr[arrnum].word = "PLUS";
+    arr[arrnum].lexeme = yytext;
+    arr[arrnum].column_number = current_column;
+    arr[arrnum].line_number = lines;
+    arrnum++;
+    fprintf(yyout, "TOKEN: PLUS, LEXEME: %s, ATTRIBUTE: Addition Operator\n", yytext); 
+    current_column += strlen(yytext);}
 "-"     { fprintf(yyout, "TOKEN: MINUS, LEXEME: %s, ATTRIBUTE: Subtraction Operator\n", yytext); current_column += strlen(yytext);}
 "*"     { fprintf(yyout, "TOKEN: MULT, LEXEME: %s, ATTRIBUTE: Multiplication Operator\n", yytext);current_column += strlen(yytext); }
 "/"     { fprintf(yyout, "TOKEN: DIV, LEXEME: %s, ATTRIBUTE: Division Operator\n", yytext);current_column += strlen(yytext); }
@@ -398,7 +758,7 @@ int main(int argc,char **argv){
     fprintf(yyout, "Stats:\n");
     fprintf(yyout, "%8d%8d%8d\n", lines, words, chars);
     for(int i=0;i<arrnum;i++){
-            fprintf(yyout,"id%d:%s\t%s\t%d\t%d\t%p\n",i,arr[i].word.c_str(),arr[i].lexeme.c_str(),arr[i].column_number,arr[i].line_number,arr[i].attribute);
+            fprintf(yyout,"id%d:%s %s %d %d %p\n",i,arr[i].word.c_str(),arr[i].lexeme.c_str(),arr[i].column_number,arr[i].line_number,arr[i].attribute);
     }
 
     return 0;
