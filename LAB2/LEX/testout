@@ -1,84 +1,109 @@
-TOKEN: ID, LEXEME: int, ATTRIBUTE: Identifier
-TOKEN: ID, LEXEME: main, ATTRIBUTE: Identifier
+TOKEN: INT, LEXEME: int, ATTRIBUTE: Keyword
+TOKEN: ID, LEXEME: main, column_number:3,ATTRIBUTE: 0x7fff50fee7b0 
 TOKEN: LPAREN, LEXEME: (, ATTRIBUTE: Left Parenthesis
 TOKEN: RPAREN, LEXEME: ), ATTRIBUTE: Right Parenthesis
 TOKEN: LBRACE, LEXEME: {, ATTRIBUTE: Left Brace
 TOKEN: DIV, LEXEME: /, ATTRIBUTE: Division Operator
 TOKEN: DIV, LEXEME: /, ATTRIBUTE: Division Operator
-TOKEN: ID, LEXEME: int, ATTRIBUTE: Identifier
-TOKEN: ID, LEXEME: n, ATTRIBUTE: Identifier
-TOKEN: NUM, LEXEME: 29, ATTRIBUTE: Numeric Constant
+TOKEN: INT, LEXEME: int, ATTRIBUTE: Keyword
+TOKEN: ID, LEXEME: n, column_number:3,ATTRIBUTE: 0x7fff50fee7b0 
+TOKEN: INT_CONST, LEXEME: 29, ATTRIBUTE: 29
 TOKEN: SEMICOLON, LEXEME: ;, ATTRIBUTE: Semicolon
 TOKEN: DIV, LEXEME: /, ATTRIBUTE: Division Operator
 TOKEN: DIV, LEXEME: /, ATTRIBUTE: Division Operator
-TOKEN: ID, LEXEME: cin, ATTRIBUTE: Identifier
+TOKEN: ID, LEXEME: cin, column_number:2,ATTRIBUTE: 0x7fff50fee7b0 
 TOKEN: GT, LEXEME: >, ATTRIBUTE: Greater Than Operator
 TOKEN: GT, LEXEME: >, ATTRIBUTE: Greater Than Operator
-TOKEN: ID, LEXEME: n, ATTRIBUTE: Identifier
+TOKEN: ID, LEXEME: n, column_number:7,ATTRIBUTE: 0x557ba98cb620 
 TOKEN: SEMICOLON, LEXEME: ;, ATTRIBUTE: Semicolon
-TOKEN: ID, LEXEME: bool, ATTRIBUTE: Identifier
-TOKEN: ID, LEXEME: isPrime, ATTRIBUTE: Identifier
-TOKEN: ID, LEXEME: true, ATTRIBUTE: Identifier
+TOKEN: BOOL, LEXEME: bool, ATTRIBUTE: Keyword
+TOKEN: ID, LEXEME: isPrime, column_number:4,ATTRIBUTE: 0x7fff50fee7b0 
+TOKEN: TRUE, LEXEME: true, ATTRIBUTE: Keyword
 TOKEN: SEMICOLON, LEXEME: ;, ATTRIBUTE: Semicolon
-TOKEN: ID, LEXEME: for, ATTRIBUTE: Identifier
+TOKEN: FOR, LEXEME: for, ATTRIBUTE: Keyword
 TOKEN: LPAREN, LEXEME: (, ATTRIBUTE: Left Parenthesis
-TOKEN: ID, LEXEME: int, ATTRIBUTE: Identifier
-TOKEN: ID, LEXEME: i, ATTRIBUTE: Identifier
-TOKEN: NUM, LEXEME: 2, ATTRIBUTE: Numeric Constant
+TOKEN: INT, LEXEME: int, ATTRIBUTE: Keyword
+TOKEN: ID, LEXEME: i, column_number:7,ATTRIBUTE: 0x7fff50fee7b0 
+TOKEN: INT_CONST, LEXEME: 2, ATTRIBUTE: 2
 TOKEN: SEMICOLON, LEXEME: ;, ATTRIBUTE: Semicolon
-TOKEN: ID, LEXEME: i, ATTRIBUTE: Identifier
+TOKEN: ID, LEXEME: i, column_number:10,ATTRIBUTE: 0x557ba98cb7d0 
 TOKEN: LE, LEXEME: <=, ATTRIBUTE: Less Than or Equal Operator
-TOKEN: ID, LEXEME: n, ATTRIBUTE: Identifier
+TOKEN: ID, LEXEME: n, column_number:13,ATTRIBUTE: 0x557ba98cb620 
 TOKEN: DIV, LEXEME: /, ATTRIBUTE: Division Operator
-TOKEN: NUM, LEXEME: 2, ATTRIBUTE: Numeric Constant
+TOKEN: INT_CONST, LEXEME: 2, ATTRIBUTE: 2
 TOKEN: SEMICOLON, LEXEME: ;, ATTRIBUTE: Semicolon
-TOKEN: ID, LEXEME: i, ATTRIBUTE: Identifier
+TOKEN: ID, LEXEME: i, column_number:17,ATTRIBUTE: 0x557ba98cb7d0 
 TOKEN: PLUS, LEXEME: +, ATTRIBUTE: Addition Operator
 TOKEN: PLUS, LEXEME: +, ATTRIBUTE: Addition Operator
 TOKEN: RPAREN, LEXEME: ), ATTRIBUTE: Right Parenthesis
 TOKEN: LBRACE, LEXEME: {, ATTRIBUTE: Left Brace
-TOKEN: ID, LEXEME: if, ATTRIBUTE: Identifier
+TOKEN: IF, LEXEME: if, ATTRIBUTE: Keyword
 TOKEN: LPAREN, LEXEME: (, ATTRIBUTE: Left Parenthesis
-TOKEN: ID, LEXEME: n, ATTRIBUTE: Identifier
-TOKEN: ID, LEXEME: i, ATTRIBUTE: Identifier
+TOKEN: ID, LEXEME: n, column_number:3,ATTRIBUTE: 0x7fff50fee7b0 
+TOKEN: ID, LEXEME: i, column_number:4,ATTRIBUTE: 0x7fff50fee7b0 
 TOKEN: EQ, LEXEME: ==, ATTRIBUTE: Equality Operator
-TOKEN: NUM, LEXEME: 0, ATTRIBUTE: Numeric Constant
+TOKEN: INT_CONST, LEXEME: 0, ATTRIBUTE: 0
 TOKEN: RPAREN, LEXEME: ), ATTRIBUTE: Right Parenthesis
 TOKEN: LBRACE, LEXEME: {, ATTRIBUTE: Left Brace
-TOKEN: ID, LEXEME: isPrime, ATTRIBUTE: Identifier
-TOKEN: ID, LEXEME: false, ATTRIBUTE: Identifier
+TOKEN: ID, LEXEME: isPrime, column_number:0,ATTRIBUTE: 0x7fff50fee7b0 
+TOKEN: FALSE, LEXEME: false, ATTRIBUTE: Keyword
 TOKEN: SEMICOLON, LEXEME: ;, ATTRIBUTE: Semicolon
-TOKEN: ID, LEXEME: break, ATTRIBUTE: Identifier
+TOKEN: BREAK, LEXEME: break, ATTRIBUTE: Keyword
 TOKEN: SEMICOLON, LEXEME: ;, ATTRIBUTE: Semicolon
 TOKEN: RBRACE, LEXEME: }, ATTRIBUTE: Right Brace
 TOKEN: RBRACE, LEXEME: }, ATTRIBUTE: Right Brace
-TOKEN: ID, LEXEME: if, ATTRIBUTE: Identifier
+TOKEN: IF, LEXEME: if, ATTRIBUTE: Keyword
 TOKEN: LPAREN, LEXEME: (, ATTRIBUTE: Left Parenthesis
-TOKEN: ID, LEXEME: isPrime, ATTRIBUTE: Identifier
+TOKEN: ID, LEXEME: isPrime, column_number:3,ATTRIBUTE: 0x557ba98cb740 
 TOKEN: RPAREN, LEXEME: ), ATTRIBUTE: Right Parenthesis
 TOKEN: LBRACE, LEXEME: {, ATTRIBUTE: Left Brace
-TOKEN: ID, LEXEME: cout, ATTRIBUTE: Identifier
+TOKEN: ID, LEXEME: cout, column_number:0,ATTRIBUTE: 0x7fff50fee7b0 
 TOKEN: LT, LEXEME: <, ATTRIBUTE: Less Than Operator
 TOKEN: LT, LEXEME: <, ATTRIBUTE: Less Than Operator
-TOKEN: ID, LEXEME: Yes, ATTRIBUTE: Identifier
+TOKEN: ID, LEXEME: Yes, column_number:6,ATTRIBUTE: 0x7fff50fee7b0 
 TOKEN: LT, LEXEME: <, ATTRIBUTE: Less Than Operator
 TOKEN: LT, LEXEME: <, ATTRIBUTE: Less Than Operator
-TOKEN: ID, LEXEME: endl, ATTRIBUTE: Identifier
+TOKEN: ID, LEXEME: endl, column_number:11,ATTRIBUTE: 0x7fff50fee7b0 
 TOKEN: SEMICOLON, LEXEME: ;, ATTRIBUTE: Semicolon
 TOKEN: RBRACE, LEXEME: }, ATTRIBUTE: Right Brace
-TOKEN: ID, LEXEME: else, ATTRIBUTE: Identifier
+TOKEN: ELSE, LEXEME: else, ATTRIBUTE: Keyword
 TOKEN: LBRACE, LEXEME: {, ATTRIBUTE: Left Brace
-TOKEN: ID, LEXEME: cout, ATTRIBUTE: Identifier
+TOKEN: ID, LEXEME: cout, column_number:0,ATTRIBUTE: 0x7fff50fee7b0 
 TOKEN: LT, LEXEME: <, ATTRIBUTE: Less Than Operator
 TOKEN: LT, LEXEME: <, ATTRIBUTE: Less Than Operator
-TOKEN: ID, LEXEME: No, ATTRIBUTE: Identifier
+TOKEN: ID, LEXEME: No, column_number:6,ATTRIBUTE: 0x7fff50fee7b0 
 TOKEN: LT, LEXEME: <, ATTRIBUTE: Less Than Operator
 TOKEN: LT, LEXEME: <, ATTRIBUTE: Less Than Operator
-TOKEN: ID, LEXEME: endl, ATTRIBUTE: Identifier
+TOKEN: ID, LEXEME: endl, column_number:10,ATTRIBUTE: 0x7fff50fee7b0 
 TOKEN: SEMICOLON, LEXEME: ;, ATTRIBUTE: Semicolon
 TOKEN: RBRACE, LEXEME: }, ATTRIBUTE: Right Brace
-TOKEN: ID, LEXEME: return, ATTRIBUTE: Identifier
-TOKEN: NUM, LEXEME: 0, ATTRIBUTE: Numeric Constant
+TOKEN: RETURN, LEXEME: return, ATTRIBUTE: Keyword
+TOKEN: INT_CONST, LEXEME: 0, ATTRIBUTE: 0
 TOKEN: SEMICOLON, LEXEME: ;, ATTRIBUTE: Semicolon
 TOKEN: RBRACE, LEXEME: }, ATTRIBUTE: Right Brace
-      23      36     303
+------------------
+Symbol Table:
+------------------
+Lexeme: main
+------------------
+Stats:
+      23      24     259
+id0:ID	main	3	0	0x7fff50fee7b0
+id1:ID	n	3	3	0x7fff50fee7b0
+id2:ID	cin	2	4	0x7fff50fee7b0
+id3:ID	n	7	4	0x557ba98cb620
+id4:ID	isPrime	4	5	0x7fff50fee7b0
+id5:ID	i	7	6	0x7fff50fee7b0
+id6:ID	i	10	6	0x557ba98cb7d0
+id7:ID	n	13	6	0x557ba98cb620
+id8:ID	i	17	6	0x557ba98cb7d0
+id9:ID	n	3	8	0x7fff50fee7b0
+id10:ID	i	4	8	0x7fff50fee7b0
+id11:ID	isPrime	0	10	0x7fff50fee7b0
+id12:ID	isPrime	3	14	0x557ba98cb740
+id13:ID	cout	0	16	0x7fff50fee7b0
+id14:ID	Yes	6	16	0x7fff50fee7b0
+id15:ID	endl	11	16	0x7fff50fee7b0
+id16:ID	cout	0	20	0x7fff50fee7b0
+id17:ID	No	6	20	0x7fff50fee7b0
+id18:ID	endl	10	20	0x7fff50fee7b0

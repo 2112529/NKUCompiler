@@ -1,7 +1,7 @@
 .PHONY:lc,lcc,clean
 lc:
 	flex SysY.l
-	gcc lex.yy.c -o lc.out
+	g++ lex.yy.c -o lc.out
 	./lc.out testin testout
 lcc:
 	flex -+ sysycc.l

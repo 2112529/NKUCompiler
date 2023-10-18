@@ -1,6 +1,11 @@
 #include<math.h>
+#include<stack>
+#include<map>
+#include<string>
+#include<variant>
+#include<iostream>
 
-#line 4 "lex.yy.c"
+#line 9 "lex.yy.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -355,8 +360,8 @@ static void yynoreturn yy_fatal_error ( const char* msg  );
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
-#define YY_NUM_RULES 24
-#define YY_END_OF_BUFFER 25
+#define YY_NUM_RULES 97
+#define YY_END_OF_BUFFER 98
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -364,13 +369,52 @@ struct yy_trans_info
 	flex_int32_t yy_verify;
 	flex_int32_t yy_nxt;
 	};
-static const flex_int16_t yy_accept[45] =
+static const flex_int16_t yy_accept[394] =
     {   0,
-        0,    0,   25,   23,   22,   23,   16,   17,   20,   18,
-       19,   21,    2,   15,    9,   23,   11,    1,    1,    1,
-        1,    1,   13,   14,    8,    2,   10,    7,   12,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    0
+        0,    0,   98,   96,   95,   96,   89,   90,   93,   91,
+       92,   96,   94,   81,   81,   88,   77,   96,   79,   85,
+       85,   85,   85,   85,   85,   85,   85,   85,   85,   85,
+       85,   85,   85,   85,   85,   85,   85,   85,   85,   86,
+       87,   76,   84,    0,   82,    0,    0,   81,   78,   75,
+       80,   85,   85,   85,   85,   85,   85,   85,   85,   85,
+       85,   85,   21,   85,   85,   85,   85,   85,   85,   85,
+       85,   85,   34,   85,   85,   85,   85,   85,   85,   85,
+       85,   85,   85,   85,   85,   85,   85,   85,   85,   85,
+       85,   85,   85,   85,   85,   85,   85,    0,   83,   85,
+
+        3,   85,   85,   85,   85,   85,   85,   85,   85,   85,
+       85,   85,   85,   85,   85,   85,   85,   85,   85,   85,
+       31,   85,   85,   85,   36,   85,   85,   85,   40,   85,
+       85,   85,   85,   85,   85,   85,   85,   85,   85,   85,
+       85,   85,   85,   85,   85,   85,   85,   85,   85,   64,
+       85,   85,   85,   85,   85,   85,   85,   85,    0,   84,
+       85,    4,    5,   85,    7,   85,    9,   85,   85,   85,
+       85,   85,   85,   85,   85,   24,   25,   85,   85,   85,
+       85,   85,   85,   33,   85,   37,   85,   85,   85,   85,
+       85,   85,   85,   85,   85,   85,   85,   85,   85,   85,
+
+       85,   85,   85,   85,   85,   60,   85,   85,   63,   85,
+       85,   85,   85,   85,   72,   85,   85,   85,    6,    8,
+       85,   85,   85,   13,   14,   85,   85,   85,   85,   85,
+       85,   85,   85,   85,   29,   30,   85,   85,   85,   85,
+       85,   85,   85,   85,   85,   85,   85,   85,   85,   85,
+       51,   85,   85,   85,   85,   85,   85,   85,   62,   85,
+       85,   85,   68,   85,   70,   85,   85,   74,   85,   85,
+       85,   85,   85,   85,   85,   85,   85,   85,   20,   22,
+       85,   85,   27,   28,   32,   35,   85,   85,   85,   85,
+       85,   85,   85,   46,   85,   85,   85,   50,   52,   53,
+
+       54,   57,   58,   85,   85,   85,   66,   85,   85,   85,
+       85,    1,    2,   85,   85,   10,   85,   85,   85,   85,
+       19,   85,   85,   38,   85,   85,   42,   85,   44,   85,
+       85,   85,   85,   85,   85,   85,   65,   85,   85,   71,
+       85,   11,   12,   85,   85,   17,   18,   85,   26,   85,
+       41,   43,   85,   47,   85,   49,   85,   85,   59,   85,
+       67,   69,   73,   85,   15,   85,   39,   45,   85,   85,
+       85,   85,   16,   85,   85,   85,   85,   85,   85,   85,
+       85,   56,   85,   23,   85,   85,   61,   85,   55,   85,
+       85,   48,    0
+
     } ;
 
 static const YY_CHAR yy_ec[256] =
@@ -379,16 +423,16 @@ static const YY_CHAR yy_ec[256] =
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    3,    1,    1,    1,    1,    1,    1,    4,
-        5,    6,    7,    1,    8,    1,    9,   10,   10,   10,
-       10,   10,   10,   10,   10,   10,   10,    1,   11,   12,
-       13,   14,    1,    1,   15,   15,   15,   15,   15,   15,
-       15,   15,   15,   15,   15,   15,   15,   15,   15,   15,
-       15,   15,   15,   15,   15,   15,   15,   15,   15,   15,
-        1,    1,    1,    1,   15,    1,   15,   15,   15,   15,
+        5,    6,    7,    1,    8,    9,   10,   11,   12,   13,
+       14,   15,   15,   16,   15,   17,   18,    1,   19,   20,
+       21,   22,    1,    1,   23,   23,   23,   23,   24,   23,
+       25,   25,   25,   25,   25,   25,   25,   25,   25,   25,
+       25,   25,   25,   25,   25,   25,   25,   26,   25,   25,
+        1,    1,    1,    1,   27,    1,   28,   29,   30,   31,
 
-       16,   17,   15,   18,   19,   15,   15,   20,   15,   21,
-       15,   15,   15,   22,   23,   24,   25,   15,   26,   15,
-       15,   15,   27,    1,   28,    1,    1,    1,    1,    1,
+       32,   33,   34,   35,   36,   25,   37,   38,   39,   40,
+       41,   42,   43,   44,   45,   46,   47,   48,   49,   50,
+       51,   52,   53,    1,   54,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
@@ -405,53 +449,232 @@ static const YY_CHAR yy_ec[256] =
         1,    1,    1,    1,    1
     } ;
 
-static const YY_CHAR yy_meta[29] =
+static const YY_CHAR yy_meta[55] =
     {   0,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    2,
-        1,    1,    1,    1,    2,    2,    2,    2,    2,    2,
-        2,    2,    2,    2,    2,    2,    1,    1
+        1,    1,    1,    1,    1,    1,    2,    2,    3,    1,
+        4,    4,    4,    4,    4,    4,    4,    4,    1,    1,
+        1,    1,    5,    6,    7,    7,    7,    5,    5,    5,
+        5,    6,    5,    7,    7,    7,    7,    7,    7,    7,
+        7,    7,    7,    7,    7,    7,    7,    7,    7,    7,
+        7,    7,    1,    1
     } ;
 
-static const flex_int16_t yy_base[46] =
+static const flex_int16_t yy_base[400] =
     {   0,
-        0,    0,   49,   50,   50,   35,   50,   50,   50,   50,
-       50,   50,   37,   50,   33,   32,   31,    0,   23,   25,
-       25,   22,   50,   50,   50,   29,   50,   50,   50,    0,
-       15,    0,   13,   17,   19,    9,   13,    0,   10,   15,
-        9,    0,    0,   50,   27
+        0,    0,  462,  463,  463,  440,  463,  463,  463,  463,
+      463,   44,  463,   54,  451,  463,  438,  437,  436,    0,
+       36,   32,   47,   45,   49,   56,  415,   58,  414,  407,
+       73,  411,   46,  420,   67,   74,   67,   74,  416,  463,
+      463,  463,   87,  115,   91,  441,    0,  440,  463,  463,
+      463,    0,  412,  408,  400,  404,  412,   33,  415,  414,
+      401,  104,  393,  399,  393,  390,   93,  398,  394,  390,
+      397,  386,    0,   98,  391,  384,  390,  379,  395,  388,
+      393,  102,  395,  111,  382,   88,   64,  386,  382,  112,
+       99,  378,  113,  383,  374,   85,  381,  144,    0,  382,
+
+        0,  374,  376,  385,  380,  381,  366,  364,  114,  370,
+      379,  374,  376,  376,  371,  363,  123,  369,  355,  371,
+        0,  366,  356,  360,    0,  361,  366,  361,    0,  342,
+      353,  346,  341,  342,  349,  350,  345,  337,  336,  338,
+      341,  348,  333,  331,  331,  334,  330,  121,  342,    0,
+      341,  331,  335,  330,  323,  337,  339,  328,  154,  162,
+      325,    0,    0,  327,    0,  328,  169,  317,  315,  324,
+      313,  311,  311,  318,  316,    0,    0,  318,  309,  308,
+      319,  304,  309,    0,  308,    0,  318,  301,  315,  302,
+      315,  314,  309,  304,  294,  292,  301,  292,  289,  302,
+
+      292,  296,  301,  300,  291,    0,  300,  278,    0,  151,
+      286,  291,  290,  276,    0,  276,  289,  156,    0,    0,
+      304,  306,  291,    0,  158,  277,  265,  277,  282,  281,
+      276,  281,  264,  269,    0,    0,  277,  275,  268,  263,
+      272,  257,  256,  255,  270,  269,  252,  265,  252,  255,
+        0,  263,  260,  262,  245,  255,  261,  257,    0,  255,
+      255,  257,    0,  244,    0,  255,  246,    0,  236,  247,
+      252,  251,  231,  246,  225,  227,  231,  226,    0,    0,
+      241,  234,    0,    0,    0,    0,  237,  240,  225,  222,
+      224,  232,  217,    0,  230,  217,  228,    0,    0,    0,
+
+      232,    0,    0,  212,  230,  223,    0,  216,  222,  215,
+      214,    0,    0,  205,  204,    0,  221,  206,  215,  214,
+        0,  218,  198,    0,  213,  196,    0,  197,    0,  208,
+      195,  196,  192,  164,  204,  197,    0,  202,  202,    0,
+      200,    0,    0,  186,  186,    0,    0,  199,    0,  196,
+        0,    0,  196,    0,  182,    0,  180,  196,    0,  182,
+        0,    0,    0,  176,    0,  193,    0,    0,  188,  174,
+      173,  187,    0,  171,  169,  181,  159,  168,  149,  166,
+      145,    0,  150,    0,  133,  109,    0,   96,    0,   50,
+       18,    0,  463,  195,  196,  200,  204,  205,  210
+
     } ;
 
-static const flex_int16_t yy_def[46] =
+static const flex_int16_t yy_def[400] =
     {   0,
-       44,    1,   44,   44,   44,   44,   44,   44,   44,   44,
-       44,   44,   44,   44,   44,   44,   44,   45,   45,   45,
-       45,   45,   44,   44,   44,   44,   44,   44,   44,   45,
-       45,   45,   45,   45,   45,   45,   45,   45,   45,   45,
-       45,   45,   45,    0,   44
+      393,    1,  393,  393,  393,  393,  393,  393,  393,  393,
+      393,  393,  393,  393,  394,  393,  393,  393,  393,  395,
+      395,  395,  395,  395,  395,  395,  395,  395,  395,  395,
+      395,  395,  395,  395,  395,  395,  395,  395,  395,  393,
+      393,  393,  396,  393,   14,  397,  398,  394,  393,  393,
+      393,  395,  395,  395,  395,  395,  395,  395,  395,  395,
+      395,  395,  395,  395,  395,  395,  395,  395,  395,  395,
+      395,  395,  395,  395,  395,  395,  395,  395,  395,  395,
+      395,  395,  395,  395,  395,  395,  395,  395,  395,  395,
+      395,  395,  395,  395,  395,  395,  395,  399,  398,  395,
+
+      395,  395,  395,  395,  395,  395,  395,  395,  395,  395,
+      395,  395,  395,  395,  395,  395,  395,  395,  395,  395,
+      395,  395,  395,  395,  395,  395,  395,  395,  395,  395,
+      395,  395,  395,  395,  395,  395,  395,  395,  395,  395,
+      395,  395,  395,  395,  395,  395,  395,  395,  395,  395,
+      395,  395,  395,  395,  395,  395,  395,  395,  393,  393,
+      395,  395,  395,  395,  395,  395,  395,  395,  395,  395,
+      395,  395,  395,  395,  395,  395,  395,  395,  395,  395,
+      395,  395,  395,  395,  395,  395,  395,  395,  395,  395,
+      395,  395,  395,  395,  395,  395,  395,  395,  395,  395,
+
+      395,  395,  395,  395,  395,  395,  395,  395,  395,  395,
+      395,  395,  395,  395,  395,  395,  395,  395,  395,  395,
+      395,  395,  395,  395,  395,  395,  395,  395,  395,  395,
+      395,  395,  395,  395,  395,  395,  395,  395,  395,  395,
+      395,  395,  395,  395,  395,  395,  395,  395,  395,  395,
+      395,  395,  395,  395,  395,  395,  395,  395,  395,  395,
+      395,  395,  395,  395,  395,  395,  395,  395,  395,  395,
+      395,  395,  395,  395,  395,  395,  395,  395,  395,  395,
+      395,  395,  395,  395,  395,  395,  395,  395,  395,  395,
+      395,  395,  395,  395,  395,  395,  395,  395,  395,  395,
+
+      395,  395,  395,  395,  395,  395,  395,  395,  395,  395,
+      395,  395,  395,  395,  395,  395,  395,  395,  395,  395,
+      395,  395,  395,  395,  395,  395,  395,  395,  395,  395,
+      395,  395,  395,  395,  395,  395,  395,  395,  395,  395,
+      395,  395,  395,  395,  395,  395,  395,  395,  395,  395,
+      395,  395,  395,  395,  395,  395,  395,  395,  395,  395,
+      395,  395,  395,  395,  395,  395,  395,  395,  395,  395,
+      395,  395,  395,  395,  395,  395,  395,  395,  395,  395,
+      395,  395,  395,  395,  395,  395,  395,  395,  395,  395,
+      395,  395,    0,  393,  393,  393,  393,  393,  393
+
     } ;
 
-static const flex_int16_t yy_nxt[79] =
+static const flex_int16_t yy_nxt[518] =
     {   0,
         4,    5,    6,    7,    8,    9,   10,   11,   12,   13,
-       14,   15,   16,   17,   18,   19,   18,   18,   20,   18,
-       18,   21,   18,   18,   18,   22,   23,   24,   30,   43,
-       42,   41,   40,   39,   38,   37,   36,   35,   26,   34,
-       33,   32,   31,   29,   28,   27,   26,   25,   44,    3,
-       44,   44,   44,   44,   44,   44,   44,   44,   44,   44,
-       44,   44,   44,   44,   44,   44,   44,   44,   44,   44,
-       44,   44,   44,   44,   44,   44,   44,   44
+       14,   15,   15,   15,   15,   15,   15,   15,   16,   17,
+       18,   19,   20,   20,   20,   20,   20,   21,   22,   23,
+       24,   25,   26,   27,   20,   28,   20,   29,   30,   31,
+       32,   33,   20,   34,   35,   36,   37,   38,   39,   20,
+       20,   20,   40,   41,   43,   43,   43,   43,   43,   43,
+       43,   43,   44,  392,   45,   45,   45,   45,   45,   45,
+       46,   46,   56,   53,   58,   57,   62,  105,  106,   47,
+       54,   59,   55,   68,   60,   63,   65,   61,   66,   82,
+       73,  143,   83,   69,  391,   64,   70,   74,   67,   71,
+
+       77,   85,   86,   47,   78,   89,   93,  144,   90,   95,
+       98,   94,   87,   79,   96,   88,  393,   91,   98,   80,
+      156,  141,  157,  390,   92,   43,   43,   43,   43,   43,
+       43,   43,   43,  110,  117,  124,  111,  133,  118,  142,
+      393,  112,  134,  125,  136,  149,  137,  147,  152,  150,
+      159,  159,  207,  138,  389,  148,  139,  153,  169,  170,
+      178,  208,  388,  179,  160,  160,  160,  160,  160,  160,
+      160,  160,  160,  160,  160,  160,  160,  160,  160,  160,
+      221,  260,  222,  269,  274,  223,  261,  387,  386,  275,
+      262,  357,  385,  358,  384,  383,  270,   48,   48,   52,
+
+       52,   52,   52,   43,  382,   43,   46,   46,   99,   99,
+       99,  160,  381,  160,  380,  379,  378,  377,  376,  375,
+      374,  373,  372,  371,  370,  369,  368,  367,  366,  365,
+      364,  363,  362,  361,  360,  359,  356,  355,  354,  353,
+      352,  351,  350,  349,  348,  347,  346,  345,  344,  343,
+      342,  341,  340,  339,  338,  337,  336,  335,  334,  333,
+      332,  331,  330,  329,  328,  327,  326,  325,  324,  323,
+      322,  321,  320,  319,  318,  317,  316,  315,  314,  313,
+      312,  311,  310,  309,  308,  307,  306,  305,  304,  303,
+      302,  301,  300,  299,  298,  297,  296,  295,  294,  293,
+
+      292,  291,  290,  289,  288,  287,  286,  285,  284,  283,
+      282,  281,  280,  279,  278,  277,  276,  273,  272,  271,
+      268,  267,  266,  265,  264,  263,  259,  258,  257,  256,
+      255,  254,  253,  252,  251,  250,  249,  248,  247,  246,
+      245,  244,  243,  242,  241,  240,  239,  238,  237,  236,
+      235,  234,  233,  232,  231,  230,  229,  228,  227,  226,
+      225,  224,  220,  219,  218,  217,  216,  215,  214,  213,
+      212,  211,  210,  209,  206,  205,  204,  203,  202,  201,
+      200,  199,  198,  197,  196,  195,  194,  193,  192,  191,
+      190,  189,  188,  187,  186,  185,  184,  183,  182,  181,
+
+      180,  177,  176,  175,  174,  173,  172,  171,  168,  167,
+      166,  165,  164,  163,  162,  161,  158,  155,  154,  151,
+      146,  145,  140,  135,  132,  131,  130,  129,  128,  127,
+      126,  123,  122,  121,  120,  119,  116,  115,  114,  113,
+      109,  108,  107,  104,  103,  102,  101,  100,   44,   44,
+       97,   84,   81,   76,   75,   72,   51,   50,   49,   44,
+       42,  393,    3,  393,  393,  393,  393,  393,  393,  393,
+      393,  393,  393,  393,  393,  393,  393,  393,  393,  393,
+      393,  393,  393,  393,  393,  393,  393,  393,  393,  393,
+      393,  393,  393,  393,  393,  393,  393,  393,  393,  393,
+
+      393,  393,  393,  393,  393,  393,  393,  393,  393,  393,
+      393,  393,  393,  393,  393,  393,  393
     } ;
 
-static const flex_int16_t yy_chk[79] =
+static const flex_int16_t yy_chk[518] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,   45,   41,
-       40,   39,   37,   36,   35,   34,   33,   31,   26,   22,
-       21,   20,   19,   17,   16,   15,   13,    6,    3,   44,
-       44,   44,   44,   44,   44,   44,   44,   44,   44,   44,
-       44,   44,   44,   44,   44,   44,   44,   44,   44,   44,
-       44,   44,   44,   44,   44,   44,   44,   44
+        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+        1,    1,    1,    1,   12,   12,   12,   12,   12,   12,
+       12,   12,   14,  391,   14,   14,   14,   14,   14,   14,
+       14,   14,   22,   21,   23,   22,   24,   58,   58,   14,
+       21,   23,   21,   26,   23,   24,   25,   23,   25,   33,
+       28,   87,   33,   26,  390,   24,   26,   28,   25,   26,
+
+       31,   35,   35,   14,   31,   36,   37,   87,   36,   38,
+       43,   37,   35,   31,   38,   35,   45,   36,   43,   31,
+       96,   86,   96,  388,   36,   44,   44,   44,   44,   44,
+       44,   44,   44,   62,   67,   74,   62,   82,   67,   86,
+       45,   62,   82,   74,   84,   91,   84,   90,   93,   91,
+       98,   98,  148,   84,  386,   90,   84,   93,  109,  109,
+      117,  148,  385,  117,  159,  159,  159,  159,  159,  159,
+      159,  159,  160,  160,  160,  160,  160,  160,  160,  160,
+      167,  210,  167,  218,  225,  167,  210,  383,  381,  225,
+      210,  334,  380,  334,  379,  378,  218,  394,  394,  395,
+
+      395,  395,  395,  396,  377,  396,  397,  397,  398,  398,
+      398,  399,  376,  399,  375,  374,  372,  371,  370,  369,
+      366,  364,  360,  358,  357,  355,  353,  350,  348,  345,
+      344,  341,  339,  338,  336,  335,  333,  332,  331,  330,
+      328,  326,  325,  323,  322,  320,  319,  318,  317,  315,
+      314,  311,  310,  309,  308,  306,  305,  304,  301,  297,
+      296,  295,  293,  292,  291,  290,  289,  288,  287,  282,
+      281,  278,  277,  276,  275,  274,  273,  272,  271,  270,
+      269,  267,  266,  264,  262,  261,  260,  258,  257,  256,
+      255,  254,  253,  252,  250,  249,  248,  247,  246,  245,
+
+      244,  243,  242,  241,  240,  239,  238,  237,  234,  233,
+      232,  231,  230,  229,  228,  227,  226,  223,  222,  221,
+      217,  216,  214,  213,  212,  211,  208,  207,  205,  204,
+      203,  202,  201,  200,  199,  198,  197,  196,  195,  194,
+      193,  192,  191,  190,  189,  188,  187,  185,  183,  182,
+      181,  180,  179,  178,  175,  174,  173,  172,  171,  170,
+      169,  168,  166,  164,  161,  158,  157,  156,  155,  154,
+      153,  152,  151,  149,  147,  146,  145,  144,  143,  142,
+      141,  140,  139,  138,  137,  136,  135,  134,  133,  132,
+      131,  130,  128,  127,  126,  124,  123,  122,  120,  119,
+
+      118,  116,  115,  114,  113,  112,  111,  110,  108,  107,
+      106,  105,  104,  103,  102,  100,   97,   95,   94,   92,
+       89,   88,   85,   83,   81,   80,   79,   78,   77,   76,
+       75,   72,   71,   70,   69,   68,   66,   65,   64,   63,
+       61,   60,   59,   57,   56,   55,   54,   53,   48,   46,
+       39,   34,   32,   30,   29,   27,   19,   18,   17,   15,
+        6,    3,  393,  393,  393,  393,  393,  393,  393,  393,
+      393,  393,  393,  393,  393,  393,  393,  393,  393,  393,
+      393,  393,  393,  393,  393,  393,  393,  393,  393,  393,
+      393,  393,  393,  393,  393,  393,  393,  393,  393,  393,
+
+      393,  393,  393,  393,  393,  393,  393,  393,  393,  393,
+      393,  393,  393,  393,  393,  393,  393
     } ;
 
 static yy_state_type yy_last_accepting_state;
@@ -470,8 +693,74 @@ int yy_flex_debug = 0;
 char *yytext;
 #line 1 "SysY.l"
 
-#line 8 "SysY.l"
+#line 13 "SysY.l"
 int chars=0,words=0,lines=0;
+int current_column = 0;
+const int N =10000;
+int arrnum=0;
+
+// 符号表项结构
+struct SymbolTableEntry {
+    std::string word;            // 单词
+    std::string lexeme;          // 词素
+    int line_number;             // 行号
+    int column_number;           // 列号
+   // SymbolTableEntry* attribute;  // 属性
+    // 在此可以添加其他属性，如类型、值等。
+};
+struct output{
+    std::string word;            // 单词
+    std::string lexeme;          // 词素
+    int line_number;             // 行号
+    int column_number;           // 列号
+    std::variant<float,SymbolTableEntry*> attribute;  // 属性
+}arr[N];
+
+// 符号表类
+class SymbolTable {
+public:
+    // 插入一个新的词素及其符号表项
+    void insert(std::string lexeme, SymbolTableEntry entry) {
+        table[lexeme] = entry;
+    }
+
+    // 查询词素，返回其符号表项
+    SymbolTableEntry* lookup(std::string lexeme) {
+        if (table.find(lexeme) != table.end()) {
+            return &table[lexeme];
+        }
+        return nullptr;
+    }
+public:
+    using iterator = std::map<std::string, SymbolTableEntry>::iterator;
+    using const_iterator = std::map<std::string, SymbolTableEntry>::const_iterator;
+
+    const_iterator begin() const {
+        return table.begin();
+    }
+
+    const_iterator end() const {
+        return table.end();
+    }
+
+private:
+    std::map<std::string, SymbolTableEntry> table;  // 符号表的内部数据结构
+};
+
+// 使用栈来管理作用域，栈顶是当前的符号表
+std::stack<SymbolTable> symbolTableStack;
+
+
+
+void printSymbolTable(const SymbolTable& table, FILE* out) {
+    for (SymbolTable::const_iterator it = table.begin(); it != table.end(); ++it) {
+        fprintf(out, "Lexeme: %s\n", it->first.c_str()); // it->first 是词素
+        // 打印其他属性...
+    }
+}
+
+
+
 struct Myset
 {
     char *type;
@@ -479,8 +768,8 @@ struct Myset
     int value;
 }Myset[100];
 int Myset_index=0;
-#line 483 "lex.yy.c"
-#line 484 "lex.yy.c"
+#line 772 "lex.yy.c"
+#line 773 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -697,10 +986,9 @@ YY_DECL
 		}
 
 	{
-#line 31 "SysY.l"
+#line 190 "SysY.l"
 
-
-#line 704 "lex.yy.c"
+#line 992 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -727,13 +1015,13 @@ yy_match:
 			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 				{
 				yy_current_state = (int) yy_def[yy_current_state];
-				if ( yy_current_state >= 45 )
+				if ( yy_current_state >= 394 )
 					yy_c = yy_meta[yy_c];
 				}
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
 			++yy_cp;
 			}
-		while ( yy_base[yy_current_state] != 50 );
+		while ( yy_base[yy_current_state] != 463 );
 
 yy_find_action:
 		yy_act = yy_accept[yy_current_state];
@@ -759,134 +1047,559 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 33 "SysY.l"
-{
-            fprintf(yyout, "TOKEN: ID, LEXEME: %s, ATTRIBUTE: Identifier\n", yytext);
-            words++;
-            chars += strlen(yytext);
-        }
+#line 191 "SysY.l"
+{fprintf(yyout, "TOKEN: ALIGNAS, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 38 "SysY.l"
-{
-            fprintf(yyout, "TOKEN: NUM, LEXEME: %s, ATTRIBUTE: Numeric Constant\n", yytext);
-            words++;
-            chars += strlen(yytext);
-        }
+#line 192 "SysY.l"
+{fprintf(yyout, "TOKEN: ALIGNOF, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 43 "SysY.l"
-{ fprintf(yyout, "TOKEN: IF, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); }
+#line 193 "SysY.l"
+{fprintf(yyout, "TOKEN: ASM, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 44 "SysY.l"
-{ fprintf(yyout, "TOKEN: ELSE, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); }
+#line 194 "SysY.l"
+{fprintf(yyout, "TOKEN: AUTO, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 45 "SysY.l"
-{ fprintf(yyout, "TOKEN: WHILE, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); }
+#line 195 "SysY.l"
+{fprintf(yyout, "TOKEN: BOOL, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 46 "SysY.l"
-{ fprintf(yyout, "TOKEN: RETURN, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); }
+#line 196 "SysY.l"
+{fprintf(yyout, "TOKEN: BREAK, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 47 "SysY.l"
-{ fprintf(yyout, "TOKEN: EQ, LEXEME: %s, ATTRIBUTE: Equality Operator\n", yytext); }
+#line 197 "SysY.l"
+{fprintf(yyout, "TOKEN: CASE, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 48 "SysY.l"
-{ fprintf(yyout, "TOKEN: NEQ, LEXEME: %s, ATTRIBUTE: Not Equal Operator\n", yytext); }
+#line 198 "SysY.l"
+{fprintf(yyout, "TOKEN: CATCH, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 49 "SysY.l"
-{ fprintf(yyout, "TOKEN: LT, LEXEME: %s, ATTRIBUTE: Less Than Operator\n", yytext); }
+#line 199 "SysY.l"
+{fprintf(yyout, "TOKEN: CHAR, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 50 "SysY.l"
-{ fprintf(yyout, "TOKEN: LE, LEXEME: %s, ATTRIBUTE: Less Than or Equal Operator\n", yytext); }
+#line 200 "SysY.l"
+{fprintf(yyout, "TOKEN: CHAR8_T, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 51 "SysY.l"
-{ fprintf(yyout, "TOKEN: GT, LEXEME: %s, ATTRIBUTE: Greater Than Operator\n", yytext); }
+#line 201 "SysY.l"
+{fprintf(yyout, "TOKEN: CHAR16_T, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 52 "SysY.l"
-{ fprintf(yyout, "TOKEN: GE, LEXEME: %s, ATTRIBUTE: Greater Than or Equal Operator\n", yytext); }
+#line 202 "SysY.l"
+{fprintf(yyout, "TOKEN: CHAR32_T, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 54 "SysY.l"
-{ fprintf(yyout, "TOKEN: LBRACE, LEXEME: %s, ATTRIBUTE: Left Brace\n", yytext); }
+#line 203 "SysY.l"
+{fprintf(yyout, "TOKEN: CLASS, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 55 "SysY.l"
-{ fprintf(yyout, "TOKEN: RBRACE, LEXEME: %s, ATTRIBUTE: Right Brace\n", yytext); }
+#line 204 "SysY.l"
+{fprintf(yyout, "TOKEN: CONST, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 56 "SysY.l"
-{ fprintf(yyout, "TOKEN: SEMICOLON, LEXEME: %s, ATTRIBUTE: Semicolon\n", yytext); }
+#line 205 "SysY.l"
+{fprintf(yyout, "TOKEN: CONSTEXPR, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 57 "SysY.l"
-{ fprintf(yyout, "TOKEN: LPAREN, LEXEME: %s, ATTRIBUTE: Left Parenthesis\n", yytext); }
+#line 206 "SysY.l"
+{fprintf(yyout, "TOKEN: CONST_CAST, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 58 "SysY.l"
-{ fprintf(yyout, "TOKEN: RPAREN, LEXEME: %s, ATTRIBUTE: Right Parenthesis\n", yytext); }
+#line 207 "SysY.l"
+{fprintf(yyout, "TOKEN: CONTINUE, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 59 "SysY.l"
-{ fprintf(yyout, "TOKEN: PLUS, LEXEME: %s, ATTRIBUTE: Addition Operator\n", yytext); }
+#line 208 "SysY.l"
+{fprintf(yyout, "TOKEN: DECLTYPE, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 60 "SysY.l"
-{ fprintf(yyout, "TOKEN: MINUS, LEXEME: %s, ATTRIBUTE: Subtraction Operator\n", yytext); }
+#line 209 "SysY.l"
+{fprintf(yyout, "TOKEN: DEFAULT, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 61 "SysY.l"
-{ fprintf(yyout, "TOKEN: MULT, LEXEME: %s, ATTRIBUTE: Multiplication Operator\n", yytext); }
+#line 210 "SysY.l"
+{fprintf(yyout, "TOKEN: DELETE, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 62 "SysY.l"
-{ fprintf(yyout, "TOKEN: DIV, LEXEME: %s, ATTRIBUTE: Division Operator\n", yytext); }
+#line 211 "SysY.l"
+{fprintf(yyout, "TOKEN: DO, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 	YY_BREAK
 case 22:
-/* rule 22 can match eol */
 YY_RULE_SETUP
-#line 64 "SysY.l"
-{ lines++; }
+#line 212 "SysY.l"
+{fprintf(yyout, "TOKEN: DOUBLE, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 65 "SysY.l"
-{ chars++; }
+#line 213 "SysY.l"
+{fprintf(yyout, "TOKEN: DYNAMIC_CAST, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 67 "SysY.l"
+#line 214 "SysY.l"
+{fprintf(yyout, "TOKEN: ELSE, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 25:
+YY_RULE_SETUP
+#line 215 "SysY.l"
+{fprintf(yyout, "TOKEN: ENUM, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 26:
+YY_RULE_SETUP
+#line 216 "SysY.l"
+{fprintf(yyout, "TOKEN: EXPLICIT, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 27:
+YY_RULE_SETUP
+#line 217 "SysY.l"
+{fprintf(yyout, "TOKEN: EXPORT, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 28:
+YY_RULE_SETUP
+#line 218 "SysY.l"
+{fprintf(yyout, "TOKEN: EXTERN, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 29:
+YY_RULE_SETUP
+#line 219 "SysY.l"
+{fprintf(yyout, "TOKEN: FALSE, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 30:
+YY_RULE_SETUP
+#line 220 "SysY.l"
+{fprintf(yyout, "TOKEN: FLOAT, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 31:
+YY_RULE_SETUP
+#line 221 "SysY.l"
+{fprintf(yyout, "TOKEN: FOR, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 32:
+YY_RULE_SETUP
+#line 222 "SysY.l"
+{fprintf(yyout, "TOKEN: FRIEND, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 33:
+YY_RULE_SETUP
+#line 223 "SysY.l"
+{fprintf(yyout, "TOKEN: GOTO, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 34:
+YY_RULE_SETUP
+#line 224 "SysY.l"
+{fprintf(yyout, "TOKEN: IF, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 35:
+YY_RULE_SETUP
+#line 225 "SysY.l"
+{fprintf(yyout, "TOKEN: INLINE, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 36:
+YY_RULE_SETUP
+#line 226 "SysY.l"
+{fprintf(yyout, "TOKEN: INT, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 37:
+YY_RULE_SETUP
+#line 227 "SysY.l"
+{fprintf(yyout, "TOKEN: LONG, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 38:
+YY_RULE_SETUP
+#line 228 "SysY.l"
+{fprintf(yyout, "TOKEN: MUTABLE, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 39:
+YY_RULE_SETUP
+#line 229 "SysY.l"
+{fprintf(yyout, "TOKEN: NAMESPACE, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 40:
+YY_RULE_SETUP
+#line 230 "SysY.l"
+{fprintf(yyout, "TOKEN: NEW, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 41:
+YY_RULE_SETUP
+#line 231 "SysY.l"
+{fprintf(yyout, "TOKEN: NOEXCEPT, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 42:
+YY_RULE_SETUP
+#line 232 "SysY.l"
+{fprintf(yyout, "TOKEN: NULLPTR, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 43:
+YY_RULE_SETUP
+#line 233 "SysY.l"
+{fprintf(yyout, "TOKEN: OPERATOR, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 44:
+YY_RULE_SETUP
+#line 234 "SysY.l"
+{fprintf(yyout, "TOKEN: PRIVATE, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 45:
+YY_RULE_SETUP
+#line 235 "SysY.l"
+{fprintf(yyout, "TOKEN: PROTECTED, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 46:
+YY_RULE_SETUP
+#line 236 "SysY.l"
+{fprintf(yyout, "TOKEN: PUBLIC, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 47:
+YY_RULE_SETUP
+#line 237 "SysY.l"
+{fprintf(yyout, "TOKEN: REGISTER, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 48:
+YY_RULE_SETUP
+#line 238 "SysY.l"
+{fprintf(yyout, "TOKEN: REINTERPRET_CAST, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 49:
+YY_RULE_SETUP
+#line 239 "SysY.l"
+{fprintf(yyout, "TOKEN: REQUIRES, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 50:
+YY_RULE_SETUP
+#line 240 "SysY.l"
+{fprintf(yyout, "TOKEN: RETURN, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 51:
+YY_RULE_SETUP
+#line 241 "SysY.l"
+{fprintf(yyout, "TOKEN: SHORT, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 52:
+YY_RULE_SETUP
+#line 242 "SysY.l"
+{fprintf(yyout, "TOKEN: SIGNED, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 53:
+YY_RULE_SETUP
+#line 243 "SysY.l"
+{fprintf(yyout, "TOKEN: SIZEOF, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 54:
+YY_RULE_SETUP
+#line 244 "SysY.l"
+{fprintf(yyout, "TOKEN: STATIC, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 55:
+YY_RULE_SETUP
+#line 245 "SysY.l"
+{fprintf(yyout, "TOKEN: STATIC_ASSERT, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 56:
+YY_RULE_SETUP
+#line 246 "SysY.l"
+{fprintf(yyout, "TOKEN: STATIC_CAST, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 57:
+YY_RULE_SETUP
+#line 247 "SysY.l"
+{fprintf(yyout, "TOKEN: STRUCT, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 58:
+YY_RULE_SETUP
+#line 248 "SysY.l"
+{fprintf(yyout, "TOKEN: SWITCH, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 59:
+YY_RULE_SETUP
+#line 249 "SysY.l"
+{fprintf(yyout, "TOKEN: TEMPLATE, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 60:
+YY_RULE_SETUP
+#line 250 "SysY.l"
+{fprintf(yyout, "TOKEN: THIS, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 61:
+YY_RULE_SETUP
+#line 251 "SysY.l"
+{fprintf(yyout, "TOKEN: THREAD_LOCAL, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 62:
+YY_RULE_SETUP
+#line 252 "SysY.l"
+{fprintf(yyout, "TOKEN: THROW, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 63:
+YY_RULE_SETUP
+#line 253 "SysY.l"
+{fprintf(yyout, "TOKEN: TRUE, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 64:
+YY_RULE_SETUP
+#line 254 "SysY.l"
+{fprintf(yyout, "TOKEN: TRY, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 65:
+YY_RULE_SETUP
+#line 255 "SysY.l"
+{fprintf(yyout, "TOKEN: TYPEDEF, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 66:
+YY_RULE_SETUP
+#line 256 "SysY.l"
+{fprintf(yyout, "TOKEN: TYPEID, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 67:
+YY_RULE_SETUP
+#line 257 "SysY.l"
+{fprintf(yyout, "TOKEN: TYPENAME, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 68:
+YY_RULE_SETUP
+#line 258 "SysY.l"
+{fprintf(yyout, "TOKEN: UNION, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 69:
+YY_RULE_SETUP
+#line 259 "SysY.l"
+{fprintf(yyout, "TOKEN: UNSIGNED, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 70:
+YY_RULE_SETUP
+#line 260 "SysY.l"
+{fprintf(yyout, "TOKEN: USING, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 71:
+YY_RULE_SETUP
+#line 261 "SysY.l"
+{fprintf(yyout, "TOKEN: VIRTUAL, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 72:
+YY_RULE_SETUP
+#line 262 "SysY.l"
+{fprintf(yyout, "TOKEN: VOID, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 73:
+YY_RULE_SETUP
+#line 263 "SysY.l"
+{fprintf(yyout, "TOKEN: VOLATILE, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 74:
+YY_RULE_SETUP
+#line 264 "SysY.l"
+{fprintf(yyout, "TOKEN: WHILE, LEXEME: %s, ATTRIBUTE: Keyword\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 75:
+YY_RULE_SETUP
+#line 269 "SysY.l"
+{ fprintf(yyout, "TOKEN: EQ, LEXEME: %s, ATTRIBUTE: Equality Operator\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 76:
+YY_RULE_SETUP
+#line 270 "SysY.l"
+{ fprintf(yyout, "TOKEN: NEQ, LEXEME: %s, ATTRIBUTE: Not Equal Operator\n", yytext);current_column += strlen(yytext); }
+	YY_BREAK
+case 77:
+YY_RULE_SETUP
+#line 271 "SysY.l"
+{ fprintf(yyout, "TOKEN: LT, LEXEME: %s, ATTRIBUTE: Less Than Operator\n", yytext);current_column += strlen(yytext); }
+	YY_BREAK
+case 78:
+YY_RULE_SETUP
+#line 272 "SysY.l"
+{ fprintf(yyout, "TOKEN: LE, LEXEME: %s, ATTRIBUTE: Less Than or Equal Operator\n", yytext);current_column += strlen(yytext); }
+	YY_BREAK
+case 79:
+YY_RULE_SETUP
+#line 273 "SysY.l"
+{ fprintf(yyout, "TOKEN: GT, LEXEME: %s, ATTRIBUTE: Greater Than Operator\n", yytext);current_column += strlen(yytext); }
+	YY_BREAK
+case 80:
+YY_RULE_SETUP
+#line 274 "SysY.l"
+{ fprintf(yyout, "TOKEN: GE, LEXEME: %s, ATTRIBUTE: Greater Than or Equal Operator\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 81:
+YY_RULE_SETUP
+#line 276 "SysY.l"
+{
+    int value = strtol(yytext, NULL, 10);
+    fprintf(yyout, "TOKEN: INT_CONST, LEXEME: %s, ATTRIBUTE: %d\n", yytext, value);
+    words++;
+    chars += strlen(yytext);
+    current_column += strlen(yytext);
+}
+	YY_BREAK
+case 82:
+YY_RULE_SETUP
+#line 284 "SysY.l"
+{
+    int value = strtol(yytext, NULL, 8);
+    fprintf(yyout, "TOKEN: OCT_CONST, LEXEME: %s, ATTRIBUTE: %d\n", yytext, value);
+    words++;
+    chars += strlen(yytext);
+    current_column += strlen(yytext);
+}
+	YY_BREAK
+case 83:
+YY_RULE_SETUP
+#line 292 "SysY.l"
+{
+    int value = strtol(yytext, NULL, 16);
+    fprintf(yyout, "TOKEN: HEX_CONST, LEXEME: %s, ATTRIBUTE: %d\n", yytext, value);
+    words++;
+    chars += strlen(yytext);
+    current_column += strlen(yytext);
+}
+	YY_BREAK
+case 84:
+YY_RULE_SETUP
+#line 300 "SysY.l"
+{
+    float value = atof(yytext);
+    fprintf(yyout, "TOKEN: FLOAT_CONST, LEXEME: %s, ATTRIBUTE: %f\n", yytext, value);
+    words++;
+    chars += strlen(yytext);
+    current_column += strlen(yytext);
+}
+	YY_BREAK
+case 85:
+YY_RULE_SETUP
+#line 309 "SysY.l"
+{
+
+    if(symbolTableStack.empty()){
+        SymbolTable newTable;
+        symbolTableStack.push(newTable);
+    }
+    
+    SymbolTableEntry* entry = nullptr;
+    if (!symbolTableStack.empty()) {
+        entry = symbolTableStack.top().lookup(yytext);  // 查找当前符号表中的词素
+    }
+
+    if (!entry) {
+        // 如果词素不存在，创建新的符号表项并插入
+        SymbolTableEntry newEntry;
+        newEntry.word = yytext;           // 单词也被设置为yytext
+        newEntry.lexeme = yytext;
+        newEntry.line_number = yylineno;  // 使用yylineno来获取当前的行号
+        newEntry.column_number = current_column;
+        entry = &newEntry;
+
+        if (!symbolTableStack.empty()) {
+            symbolTableStack.top().insert(yytext, newEntry);
+        }
+    }
+    arr[arrnum].word="ID";
+    arr[arrnum].lexeme=yytext;
+    arr[arrnum].column_number=current_column;
+    arr[arrnum].line_number=lines;
+    arr[arrnum].attribute=entry;
+    arrnum++;
+    fprintf(yyout, "TOKEN: ID, LEXEME: %s, column_number:%d,ATTRIBUTE: %p \n", yytext,current_column,entry);
+    words++;
+    current_column += strlen(yytext);
+    chars += strlen(yytext);
+}
+	YY_BREAK
+case 86:
+YY_RULE_SETUP
+#line 350 "SysY.l"
+{
+    SymbolTable newTable;
+    symbolTableStack.push(newTable);
+    fprintf(yyout, "TOKEN: LBRACE, LEXEME: %s, ATTRIBUTE: Left Brace\n", yytext);
+}
+	YY_BREAK
+case 87:
+YY_RULE_SETUP
+#line 356 "SysY.l"
+{
+    if (!symbolTableStack.empty()) {
+        symbolTableStack.pop();
+    }
+    fprintf(yyout, "TOKEN: RBRACE, LEXEME: %s, ATTRIBUTE: Right Brace\n", yytext);
+}
+	YY_BREAK
+case 88:
+YY_RULE_SETUP
+#line 362 "SysY.l"
+{ fprintf(yyout, "TOKEN: SEMICOLON, LEXEME: %s, ATTRIBUTE: Semicolon\n", yytext);current_column += strlen(yytext); }
+	YY_BREAK
+case 89:
+YY_RULE_SETUP
+#line 363 "SysY.l"
+{ fprintf(yyout, "TOKEN: LPAREN, LEXEME: %s, ATTRIBUTE: Left Parenthesis\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 90:
+YY_RULE_SETUP
+#line 364 "SysY.l"
+{ fprintf(yyout, "TOKEN: RPAREN, LEXEME: %s, ATTRIBUTE: Right Parenthesis\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 91:
+YY_RULE_SETUP
+#line 365 "SysY.l"
+{ fprintf(yyout, "TOKEN: PLUS, LEXEME: %s, ATTRIBUTE: Addition Operator\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 92:
+YY_RULE_SETUP
+#line 366 "SysY.l"
+{ fprintf(yyout, "TOKEN: MINUS, LEXEME: %s, ATTRIBUTE: Subtraction Operator\n", yytext); current_column += strlen(yytext);}
+	YY_BREAK
+case 93:
+YY_RULE_SETUP
+#line 367 "SysY.l"
+{ fprintf(yyout, "TOKEN: MULT, LEXEME: %s, ATTRIBUTE: Multiplication Operator\n", yytext);current_column += strlen(yytext); }
+	YY_BREAK
+case 94:
+YY_RULE_SETUP
+#line 368 "SysY.l"
+{ fprintf(yyout, "TOKEN: DIV, LEXEME: %s, ATTRIBUTE: Division Operator\n", yytext);current_column += strlen(yytext); }
+	YY_BREAK
+case 95:
+/* rule 95 can match eol */
+YY_RULE_SETUP
+#line 370 "SysY.l"
+{ lines++; current_column = 0; }  // 在这里重置列计数器
+	YY_BREAK
+case 96:
+YY_RULE_SETUP
+#line 371 "SysY.l"
+{ chars++; }
+	YY_BREAK
+case 97:
+YY_RULE_SETUP
+#line 373 "SysY.l"
 ECHO;
 	YY_BREAK
-#line 890 "lex.yy.c"
+#line 1603 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1183,7 +1896,7 @@ static int yy_get_next_buffer (void)
 		while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 			{
 			yy_current_state = (int) yy_def[yy_current_state];
-			if ( yy_current_state >= 45 )
+			if ( yy_current_state >= 394 )
 				yy_c = yy_meta[yy_c];
 			}
 		yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
@@ -1211,11 +1924,11 @@ static int yy_get_next_buffer (void)
 	while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 		{
 		yy_current_state = (int) yy_def[yy_current_state];
-		if ( yy_current_state >= 45 )
+		if ( yy_current_state >= 394 )
 			yy_c = yy_meta[yy_c];
 		}
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
-	yy_is_jam = (yy_current_state == 44);
+	yy_is_jam = (yy_current_state == 393);
 
 		return yy_is_jam ? 0 : yy_current_state;
 }
@@ -1891,10 +2604,11 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 67 "SysY.l"
+#line 373 "SysY.l"
 
 
 int main(int argc,char **argv){
+
         if(argc>1){
             yyin=fopen(argv[1],"r");
             if(argc>2){ 
@@ -1902,7 +2616,25 @@ int main(int argc,char **argv){
             }
         }
     yylex();
-    fprintf(yyout,"%8d%8d%8d\n",lines,words,chars);
-    return 0;
+    fprintf(yyout, "------------------\n");
+    fprintf(yyout, "Symbol Table:\n");
+    fprintf(yyout, "------------------\n");
+
+    while (!symbolTableStack.empty()) {
+        const auto& currentTable = symbolTableStack.top(); // 获取栈顶的符号表
+        // 用一个函数输出当前符号表的内容
+        // 为了实现这个函数，你可能需要提供对符号表内部数据结构的访问（例如通过友元或公共方法）
+        printSymbolTable(currentTable, yyout);
+
+        symbolTableStack.pop(); // 弹出栈顶的符号表
     }
 
+    fprintf(yyout, "------------------\n");
+    fprintf(yyout, "Stats:\n");
+    fprintf(yyout, "%8d%8d%8d\n", lines, words, chars);
+    for(int i=0;i<arrnum;i++){
+            fprintf(yyout,"id%d:%s\t%s\t%d\t%d\t%p\n",i,arr[i].word.c_str(),arr[i].lexeme.c_str(),arr[i].column_number,arr[i].line_number,arr[i].attribute);
+    }
+
+    return 0;
+}
