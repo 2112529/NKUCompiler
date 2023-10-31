@@ -40,6 +40,17 @@ struct output{
     std::variant<float,SymbolTableEntry*,std::string*,char*,int> attribute;  // 属性
 }arr[N];
 
+void redirectAndAssign(const char* token, const char* lexeme, const char* attribute, int line, int col) {
+    fprintf(yyout, "TOKEN: %s, LEXEME: %s, ATTRIBUTE: %s, LINE: %d, COLUMN: %d\n", token, lexeme, attribute, line, col);
+    current_column += strlen(lexeme);
+    arr[arrnum].word = token;
+    arr[arrnum].lexeme = lexeme;
+    arr[arrnum].column_number = col;
+    arr[arrnum].line_number = line;
+    arrnum++;
+}
+
+
 // 符号表类
 class SymbolTable {
 public:
@@ -84,7 +95,8 @@ void printSymbolTable(const SymbolTable& table, FILE* out) {
         // 打印其他属性...
     }
 }
-
+SymbolTableEntry glo[N];
+int glonum=0;
 
 
 struct Myset
@@ -641,7 +653,8 @@ commentend "*/"
         idnum++;
         ptr = &(idtable[idnum-1]);
     }
-    SymbolTableEntry newEntry;
+    //SymbolTableEntry newEntry;
+    SymbolTableEntry & newEntry=glo[glonum++];
     if (!entry) {
         // 如果词素不存在，创建新的符号表项并插入
 
