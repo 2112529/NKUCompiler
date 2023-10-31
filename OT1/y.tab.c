@@ -76,35 +76,16 @@ YACC file
 #include<stdio.h>
 #include<stdlib.h>
 #include<ctype.h>
+#include <stdbool.h>
+#include"./NFAandDFA.h"
 int yylex();
 extern int yyparse();
 FILE* yyin;
 void yyerror(const char* s);
-// 声明NFA的数据结构
-typedef struct State State;
-typedef struct Transition Transition;
-struct Transition {
-    char symbol;
-    State *destination;
-    Transition *next;
-};
-struct State {
-    int isAccepting;
-    Transition *transitions;
-};
-typedef struct {
-    State *start;
-    State *accept;
-} NFA;
+int StateIDCount=0;
+NFA finalNFA;
 
-// 声明NFA操作函数
-NFA createBasicNFA(char c);
-NFA createUnionNFA(NFA a, NFA b);
-NFA createConcatNFA(NFA a, NFA b);
-NFA createStarNFA(NFA a);
-
-
-#line 108 "y.tab.c"
+#line 89 "y.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -168,12 +149,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 38 "Core.y"
+#line 19 "Core.y"
 
     char charval;
     NFA nfaval;
 
-#line 177 "y.tab.c"
+#line 158 "y.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -591,7 +572,7 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    57,    57,    58,    61,    62,    65,    66,    67
+       0,    38,    38,    39,    42,    43,    46,    47,    48
 };
 #endif
 
@@ -1153,49 +1134,49 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* regex: regex OR concat  */
-#line 57 "Core.y"
-                                { (yyval.nfaval) = createUnionNFA((yyvsp[-2].nfaval), (yyvsp[0].nfaval)); }
-#line 1159 "y.tab.c"
+#line 38 "Core.y"
+                                { (yyval.nfaval) = createUnionNFA((yyvsp[-2].nfaval), (yyvsp[0].nfaval)); finalNFA = (yyval.nfaval); }
+#line 1140 "y.tab.c"
     break;
 
   case 3: /* regex: concat  */
-#line 58 "Core.y"
-                                { (yyval.nfaval) = (yyvsp[0].nfaval); }
-#line 1165 "y.tab.c"
+#line 39 "Core.y"
+                                { (yyval.nfaval) = (yyvsp[0].nfaval); finalNFA = (yyval.nfaval); }
+#line 1146 "y.tab.c"
     break;
 
   case 4: /* concat: concat basic  */
-#line 61 "Core.y"
+#line 42 "Core.y"
                                 { (yyval.nfaval) = createConcatNFA((yyvsp[-1].nfaval), (yyvsp[0].nfaval)); }
-#line 1171 "y.tab.c"
+#line 1152 "y.tab.c"
     break;
 
   case 5: /* concat: basic  */
-#line 62 "Core.y"
+#line 43 "Core.y"
                                { (yyval.nfaval) = (yyvsp[0].nfaval); }
-#line 1177 "y.tab.c"
+#line 1158 "y.tab.c"
     break;
 
   case 6: /* basic: basic STAR  */
-#line 65 "Core.y"
+#line 46 "Core.y"
                                 { (yyval.nfaval) = createStarNFA((yyvsp[-1].nfaval)); }
-#line 1183 "y.tab.c"
+#line 1164 "y.tab.c"
     break;
 
   case 7: /* basic: CHAR  */
-#line 66 "Core.y"
+#line 47 "Core.y"
                                { (yyval.nfaval) = createBasicNFA((yyvsp[0].charval)); }
-#line 1189 "y.tab.c"
+#line 1170 "y.tab.c"
     break;
 
   case 8: /* basic: LPAREN regex RPAREN  */
-#line 67 "Core.y"
+#line 48 "Core.y"
                                { (yyval.nfaval) = (yyvsp[-1].nfaval); }
-#line 1195 "y.tab.c"
+#line 1176 "y.tab.c"
     break;
 
 
-#line 1199 "y.tab.c"
+#line 1180 "y.tab.c"
 
       default: break;
     }
@@ -1388,7 +1369,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 72 "Core.y"
+#line 53 "Core.y"
 
 
 // programs section
@@ -1399,6 +1380,8 @@ State* createState(int isAccepting) {
     State *s = malloc(sizeof(State));
     s->isAccepting = isAccepting;
     s->transitions = NULL;
+    //s->next = NULL;
+    s->StateID=StateIDCount++;
     return s;
 }
 
@@ -1419,13 +1402,15 @@ NFA createBasicNFA(char c) {
     return (NFA) {start, accept};
 }
 NFA createUnionNFA(NFA a, NFA b) {
+
+
     State *start = createState(0);
     State *accept = createState(1);
 
-    addTransition(start, 0, a.start);
-    addTransition(start, 0, b.start);
-    addTransition(a.accept, 0, accept);
-    addTransition(b.accept, 0, accept);
+    addTransition(start, 'e', a.start);
+    addTransition(start, 'e', b.start);
+    addTransition(a.accept, 'e', accept);
+    addTransition(b.accept, 'e', accept);
 
     a.accept->isAccepting = 0;
     b.accept->isAccepting = 0;
@@ -1436,9 +1421,9 @@ NFA createConcatNFA(NFA a, NFA b) {
     State *start = createState(0);
     State *accept = createState(1);
 
-    addTransition(start, 0, a.start);
-    addTransition(a.accept, 0, b.start);
-    addTransition(b.accept, 0, accept);
+    addTransition(start, 'e', a.start);
+    addTransition(a.accept, 'e', b.start);
+    addTransition(b.accept, 'e', accept);
 
     a.accept->isAccepting = 0;
     b.accept->isAccepting = 0;
@@ -1449,9 +1434,10 @@ NFA createStarNFA(NFA a) {
     State *start = createState(0);
     State *accept = createState(1);
 
-    addTransition(start, 0, a.start);
-    addTransition(a.accept, 0, a.start);
-    addTransition(a.accept, 0, accept);
+    addTransition(start, 'e', a.start);
+    addTransition(a.accept, 'e', a.start);
+    addTransition(a.accept, 'e', accept);
+    addTransition(start, 'e', accept);
 
     a.accept->isAccepting = 0;
 
@@ -1490,6 +1476,14 @@ int main(void)
     do{
         yyparse();
     }while(!feof(yyin));
+    FILE* file = fopen("output", "w");
+    if (file) {
+        printNFA(finalNFA, file);
+        fclose(file);
+    } else {
+        fprintf(stderr, "Unable to open output file.\n");
+    }
+
     return 0;
 }
 void yyerror(const char* s){

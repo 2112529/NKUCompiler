@@ -6,33 +6,14 @@ YACC file
 #include<stdio.h>
 #include<stdlib.h>
 #include<ctype.h>
+#include <stdbool.h>
+#include"./NFAandDFA.h"
 int yylex();
 extern int yyparse();
 FILE* yyin;
 void yyerror(const char* s);
-// 声明NFA的数据结构
-typedef struct State State;
-typedef struct Transition Transition;
-struct Transition {
-    char symbol;
-    State *destination;
-    Transition *next;
-};
-struct State {
-    int isAccepting;
-    Transition *transitions;
-};
-typedef struct {
-    State *start;
-    State *accept;
-} NFA;
-
-// 声明NFA操作函数
-NFA createBasicNFA(char c);
-NFA createUnionNFA(NFA a, NFA b);
-NFA createConcatNFA(NFA a, NFA b);
-NFA createStarNFA(NFA a);
-
+int StateIDCount=0;
+NFA finalNFA;
 %}
 
 %union {
@@ -54,8 +35,8 @@ NFA createStarNFA(NFA a);
 
 //描述正则表达式
 
-regex   : regex OR concat       { $$ = createUnionNFA($1, $3); }
-        | concat                { $$ = $1; }
+regex   : regex OR concat       { $$ = createUnionNFA($1, $3); finalNFA = $$; }
+        | concat                { $$ = $1; finalNFA = $$; }
         ;
 
 concat  : concat basic          { $$ = createConcatNFA($1, $2); }
@@ -79,6 +60,8 @@ State* createState(int isAccepting) {
     State *s = malloc(sizeof(State));
     s->isAccepting = isAccepting;
     s->transitions = NULL;
+    //s->next = NULL;
+    s->StateID=StateIDCount++;
     return s;
 }
 
@@ -99,13 +82,15 @@ NFA createBasicNFA(char c) {
     return (NFA) {start, accept};
 }
 NFA createUnionNFA(NFA a, NFA b) {
+
+
     State *start = createState(0);
     State *accept = createState(1);
 
-    addTransition(start, 0, a.start);
-    addTransition(start, 0, b.start);
-    addTransition(a.accept, 0, accept);
-    addTransition(b.accept, 0, accept);
+    addTransition(start, 'e', a.start);
+    addTransition(start, 'e', b.start);
+    addTransition(a.accept, 'e', accept);
+    addTransition(b.accept, 'e', accept);
 
     a.accept->isAccepting = 0;
     b.accept->isAccepting = 0;
@@ -116,9 +101,9 @@ NFA createConcatNFA(NFA a, NFA b) {
     State *start = createState(0);
     State *accept = createState(1);
 
-    addTransition(start, 0, a.start);
-    addTransition(a.accept, 0, b.start);
-    addTransition(b.accept, 0, accept);
+    addTransition(start, 'e', a.start);
+    addTransition(a.accept, 'e', b.start);
+    addTransition(b.accept, 'e', accept);
 
     a.accept->isAccepting = 0;
     b.accept->isAccepting = 0;
@@ -129,9 +114,10 @@ NFA createStarNFA(NFA a) {
     State *start = createState(0);
     State *accept = createState(1);
 
-    addTransition(start, 0, a.start);
-    addTransition(a.accept, 0, a.start);
-    addTransition(a.accept, 0, accept);
+    addTransition(start, 'e', a.start);
+    addTransition(a.accept, 'e', a.start);
+    addTransition(a.accept, 'e', accept);
+    addTransition(start, 'e', accept);
 
     a.accept->isAccepting = 0;
 
@@ -170,6 +156,14 @@ int main(void)
     do{
         yyparse();
     }while(!feof(yyin));
+    FILE* file = fopen("output", "w");
+    if (file) {
+        printNFA(finalNFA, file);
+        fclose(file);
+    } else {
+        fprintf(stderr, "Unable to open output file.\n");
+    }
+
     return 0;
 }
 void yyerror(const char* s){
