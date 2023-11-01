@@ -18,4 +18,5 @@ graph TD;
     7 -->|e| 11;
     11 -->|e| 13;
     11 -->|e| 10;
-    class 15 end-state;
+    class 15 AMP;
+```

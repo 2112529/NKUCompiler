@@ -7,13 +7,13 @@ YACC file
 #include<stdlib.h>
 #include<ctype.h>
 #include <stdbool.h>
-#include"./NFAandDFA.h"
+#include"./NFA.h"
 int yylex();
 extern int yyparse();
 FILE* yyin;
 void yyerror(const char* s);
-int StateIDCount=0;
-NFA finalNFA;
+
+
 %}
 
 %union {
@@ -56,8 +56,8 @@ basic   : basic STAR            { $$ = createStarNFA($1); }
 
 
 // 创建一个新的状态
-State* createState(int isAccepting) {
-    State *s = malloc(sizeof(State));
+NFAState* createState(int isAccepting) {
+    NFAState *s = malloc(sizeof(NFAState));
     s->isAccepting = isAccepting;
     s->transitions = NULL;
     //s->next = NULL;
@@ -66,8 +66,8 @@ State* createState(int isAccepting) {
 }
 
 // 添加一个转换到状态
-void addTransition(State *from, char symbol, State *to) {
-    Transition *t = malloc(sizeof(Transition));
+void addTransition(NFAState *from, char symbol, NFAState *to) {
+    NFATransition *t = malloc(sizeof(NFATransition));
     t->symbol = symbol;
     t->destination = to;
     t->next = from->transitions;
@@ -76,16 +76,16 @@ void addTransition(State *from, char symbol, State *to) {
 
 // 创建一个基本的NFA，它接受一个字符
 NFA createBasicNFA(char c) {
-    State *start = createState(0);
-    State *accept = createState(1);
+    NFAState *start = createState(0);
+    NFAState *accept = createState(1);
     addTransition(start, c, accept);
     return (NFA) {start, accept};
 }
 NFA createUnionNFA(NFA a, NFA b) {
 
 
-    State *start = createState(0);
-    State *accept = createState(1);
+    NFAState *start = createState(0);
+    NFAState *accept = createState(1);
 
     addTransition(start, 'e', a.start);
     addTransition(start, 'e', b.start);
@@ -98,8 +98,8 @@ NFA createUnionNFA(NFA a, NFA b) {
     return (NFA) {start, accept};
 }
 NFA createConcatNFA(NFA a, NFA b) {
-    State *start = createState(0);
-    State *accept = createState(1);
+    NFAState *start = createState(0);
+    NFAState *accept = createState(1);
 
     addTransition(start, 'e', a.start);
     addTransition(a.accept, 'e', b.start);
@@ -111,8 +111,8 @@ NFA createConcatNFA(NFA a, NFA b) {
     return (NFA) {start, accept};
 }
 NFA createStarNFA(NFA a) {
-    State *start = createState(0);
-    State *accept = createState(1);
+    NFAState *start = createState(0);
+    NFAState *accept = createState(1);
 
     addTransition(start, 'e', a.start);
     addTransition(a.accept, 'e', a.start);
