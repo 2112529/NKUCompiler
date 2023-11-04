@@ -1,3 +1,5 @@
+#ifndef NFA_H
+#define NFA_H
 #include<stdio.h>
 #include<stdlib.h>
 #include <stdbool.h>
@@ -21,9 +23,12 @@ typedef struct {
     NFAState *accept;
     NFATransition *transitions;
 } NFA;
-NFA finalNFA;
+NFA *finalNFA;
 int StateIDCount=0;
 #define MAX_SYMBOLS 256
+#define MAX_STATES 100 // the number of NFA states根据实际情况调整
+
+
 // 声明NFA操作函数
 NFA createBasicNFA(char c);
 NFA createUnionNFA(NFA a, NFA b);
@@ -93,5 +98,5 @@ void findAlphabet(NFA* nfa, char* alphabet) {
 
     alphabet[index] = '\0'; // 结束符号
 }
-
+#endif // NFA_H
 

@@ -1,7 +1,16 @@
-#define MAX_STATES 100 // the number of NFA states根据实际情况调整
+#ifndef NFA2DFA_H
+#define NFA2DFA_H
+
+#include "./NFA.h"
 // 声明DFA的数据结构
 typedef struct DFAState DFAState;
 typedef struct DFATransition DFATransition;
+typedef struct EpsilonClosure {
+    NFAState **states;  // NFA状态指针数组
+    int count;          // 状态的数量
+} EpsilonClosure;
+DFAState* FinalDFA;
+int DFAStateCount=0;
 struct DFATransition {
     char symbol;
     DFAState *source;
@@ -14,6 +23,7 @@ struct DFAState {
     DFATransition *transitions;
     int StateID;
 };
+
 // 在DFA中添加一个转移
 void addDFATransition(DFAState *source, char symbol, DFAState *destination) {
     DFATransition *trans = (DFATransition*)malloc(sizeof(DFATransition));
@@ -23,28 +33,75 @@ void addDFATransition(DFAState *source, char symbol, DFAState *destination) {
     trans->next = source->transitions;  // 将新转移添加到链表的开头
     source->transitions = trans;
 }
+void PrintDFA(DFAState *startState) {
+    if (!startState) {
+        printf("DFA is empty.\n");
+        return;
+    }
+
+    FILE *file = fopen("DFAoutput.txt", "w");
+    if (!file) {
+        perror("Failed to open DFAoutput.txt");
+        return;
+    }
+
+    // 使用一个visited数组来避免重复访问
+    int visited[MAX_STATES] = {0};
+    // 使用一个队列来进行宽度优先搜索
+    DFAState *queue[MAX_STATES];
+    int front = 0, rear = 0;
+
+    queue[rear++] = startState;
+
+    while (front != rear) {
+        DFAState *currentState = queue[front++];
+        
+        if (visited[currentState->StateID]) {
+            continue;
+        }
+        visited[currentState->StateID] = 1;
+
+        // 打印当前DFA状态的信息到文件
+        fprintf(file, "DFA State %d ", currentState->StateID);
+        if (currentState->isAccepting) {
+            fprintf(file, "(Accepting State) ");
+        }
+        fprintf(file, "consists of NFA states: ");
+
+        // 打印这个DFA状态包含的所有NFA状态到文件
+        for (int i = 0; i < currentState->NFAStateSet->count; i++) {
+            fprintf(file, "%d ", currentState->NFAStateSet->states[i]->StateID);
+        }
+        fprintf(file, "\n");
+
+        // 打印从这个DFA状态出发的所有转换到文件
+        DFATransition *transition = currentState->transitions;
+        while (transition) {
+            fprintf(file, "On symbol %c, go to DFA State %d\n", transition->symbol, transition->destination->StateID);
+            
+            // 如果这个目标DFA状态还没被访问，添加到队列
+            if (!visited[transition->destination->StateID]) {
+                queue[rear++] = transition->destination;
+            }
+
+            transition = transition->next;
+        }
+        fprintf(file, "\n");
+    }
+
+    fclose(file);
+}
 
 
 
 
-typedef struct EpsilonClosure {
-    int *states;   // 状态数组
-    int count;     // 状态的数量
-} EpsilonClosure;
 
-int DFAStateCount=0;
-//计算NFA中某一状态的e闭包
-void DFS(NFAState *state, int *visited, EpsilonClosure *closure) {
-    // 如果状态已经被访问过，返回
+
+
+void DFS(NFAState *state, bool *visited, EpsilonClosure *closure) {
     if (visited[state->StateID]) return;
-
-    // 标记状态为已访问
     visited[state->StateID] = 1;
-
-    // 添加状态到ε闭包
-    closure->states[closure->count++] = state->StateID;
-
-    // 遍历状态的所有转换
+    closure->states[closure->count++] = state;
     NFATransition *transition = state->transitions;
     while (transition) {
         if (transition->symbol == 'e') {
@@ -53,9 +110,10 @@ void DFS(NFAState *state, int *visited, EpsilonClosure *closure) {
         transition = transition->next;
     }
 }
+
 EpsilonClosure* computeEpsilonClosure(NFAState *state) {
     EpsilonClosure *closure = malloc(sizeof(EpsilonClosure));
-    closure->states = malloc(MAX_STATES * sizeof(int));
+    closure->states = malloc(MAX_STATES * sizeof(NFAState*));
     closure->count = 0;
 
     bool visited[MAX_STATES] = { false };
@@ -63,17 +121,16 @@ EpsilonClosure* computeEpsilonClosure(NFAState *state) {
 
     return closure;
 }
-//
+
 DFAState* createDFAState(EpsilonClosure *closure, int stateID, NFA *nfa) {
     DFAState *newDFAState = malloc(sizeof(DFAState));
     newDFAState->NFAStateSet = closure;
     newDFAState->StateID = stateID;
     newDFAState->transitions = NULL;
 
-    // 判断该DFA状态是否应该是接受状态
     newDFAState->isAccepting = 0;
     for (int i = 0; i < closure->count; i++) {
-        if (nfa->accept->StateID == closure->states[i]) {
+        if (nfa->accept->StateID == closure->states[i]->StateID) {
             newDFAState->isAccepting = 1;
             break;
         }
@@ -82,8 +139,60 @@ DFAState* createDFAState(EpsilonClosure *closure, int stateID, NFA *nfa) {
     return newDFAState;
 }
 
-// 根据给定的DFA状态和一个字符计算新的e closure
-// 检查给定的NFAStateID是否在EpsilonClosure中
+void freeDFATransition(DFATransition *transition) {
+    if (transition) {
+        freeDFATransition(transition->next);  // 递归释放链表
+        free(transition);
+    }
+}
+
+void freeDFAState(DFAState *state) {
+    if (state) {
+        // 释放转移列表
+        freeDFATransition(state->transitions);
+        
+        // 释放ε闭包
+        if (state->NFAStateSet) {
+            if (state->NFAStateSet->states) {
+                free(state->NFAStateSet->states);
+            }
+            free(state->NFAStateSet);
+        }
+
+        // 释放状态本身
+        free(state);
+    }
+}
+
+void freeDFA(DFAState *start) {
+    // 使用一个队列或栈，确保我们不会重复访问和释放任何状态
+    DFAState **queue = malloc(DFAStateCount * sizeof(DFAState*));
+    int front = 0, rear = 0;
+
+    bool *visited = calloc(DFAStateCount, sizeof(bool));
+
+    queue[rear++] = start;
+    visited[start->StateID] = true;
+
+    while (front < rear) {
+        DFAState *current = queue[front++];
+        DFATransition *transition = current->transitions;
+        while (transition) {
+            if (!visited[transition->destination->StateID]) {
+                queue[rear++] = transition->destination;
+                visited[transition->destination->StateID] = true;
+            }
+            transition = transition->next;
+        }
+        
+        freeDFAState(current);
+    }
+
+    free(queue);
+    free(visited);
+}
+
+
 int isStateInClosure(EpsilonClosure* closure, int NFAStateID) {
     for (int i = 0; i < closure->count; i++) {
         if (closure->states[i]->StateID == NFAStateID) {
@@ -93,7 +202,6 @@ int isStateInClosure(EpsilonClosure* closure, int NFAStateID) {
     return 0;  // 不存在
 }
 
-// 将srcClosure的状态合并到destClosure中，确保没有重复的状态
 void mergeClosures(EpsilonClosure* destClosure, EpsilonClosure* srcClosure) {
     for (int i = 0; i < srcClosure->count; i++) {
         if (!isStateInClosure(destClosure, srcClosure->states[i]->StateID)) {
@@ -102,14 +210,12 @@ void mergeClosures(EpsilonClosure* destClosure, EpsilonClosure* srcClosure) {
     }
 }
 
-// 获取从给定NFA状态通过给定符号转移到的所有NFA状态
 void getTargetNFAStates(EpsilonClosure* closure, char symbol, EpsilonClosure* targetStates) {
     for (int i = 0; i < closure->count; i++) {
         NFAState* currentNFAState = closure->states[i];
         NFATransition* trans = currentNFAState->transitions;
         while (trans) {
             if (trans->symbol == symbol && !isStateInClosure(targetStates, trans->destination->StateID)) {
-                // 添加这个目标状态到targetStates
                 targetStates->states[targetStates->count++] = trans->destination;
             }
             trans = trans->next;
@@ -117,20 +223,17 @@ void getTargetNFAStates(EpsilonClosure* closure, char symbol, EpsilonClosure* ta
     }
 }
 
-// 从给定的DFAState和符号计算新的ε闭包
 EpsilonClosure* GetNewClosure(DFAState* dfaState, char symbol) {
     EpsilonClosure* targetStates = (EpsilonClosure*)malloc(sizeof(EpsilonClosure));
     targetStates->count = 0;
 
-    // 根据符号获取目标NFA状态集
     getTargetNFAStates(dfaState->NFAStateSet, symbol, targetStates);
 
-    // 计算这个目标NFA状态集的ε闭包
     for (int i = 0; i < targetStates->count; i++) {
         EpsilonClosure* newClosure = computeEpsilonClosure(targetStates->states[i]);
-        // 合并新的ε闭包到targetStates
         mergeClosures(targetStates, newClosure);
-        free(newClosure);  // 如果computeEpsilonClosure分配了内存
+        free(newClosure->states); // 释放分配的状态数组
+        free(newClosure);         // 释放computeEpsilonClosure分配的内存
     }
 
     if (targetStates->count == 0) {
@@ -140,6 +243,7 @@ EpsilonClosure* GetNewClosure(DFAState* dfaState, char symbol) {
 
     return targetStates;
 }
+
 
 
 //
@@ -184,3 +288,4 @@ DFAState* removeFromWorklist(DFAStateSetList* list) {
     }
     return NULL;
 }
+#endif // NFA_H

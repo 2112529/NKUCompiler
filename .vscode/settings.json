@@ -2,6 +2,8 @@
     "files.associations": {
         "iostream": "cpp",
         "stdio.h": "c",
-        "nfa2dfa.h": "c"
+        "nfa2dfa.h": "c",
+        "nfa.h": "c",
+        "stdbool.h": "c"
     }
 }

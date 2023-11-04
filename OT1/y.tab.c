@@ -1135,13 +1135,13 @@ yyreduce:
     {
   case 2: /* regex: regex OR concat  */
 #line 38 "Core.y"
-                                { (yyval.nfaval) = createUnionNFA((yyvsp[-2].nfaval), (yyvsp[0].nfaval)); finalNFA = (yyval.nfaval); }
+                                { (yyval.nfaval) = createUnionNFA((yyvsp[-2].nfaval), (yyvsp[0].nfaval)); *finalNFA = (yyval.nfaval); }
 #line 1140 "y.tab.c"
     break;
 
   case 3: /* regex: concat  */
 #line 39 "Core.y"
-                                { (yyval.nfaval) = (yyvsp[0].nfaval); finalNFA = (yyval.nfaval); }
+                                { (yyval.nfaval) = (yyvsp[0].nfaval); *finalNFA = (yyval.nfaval); }
 #line 1146 "y.tab.c"
     break;
 
@@ -1478,7 +1478,7 @@ int main(void)
     }while(!feof(yyin));
     FILE* file = fopen("output", "w");
     if (file) {
-        printNFA(finalNFA, file);
+        printNFA(*finalNFA, file);
         fclose(file);
     } else {
         fprintf(stderr, "Unable to open output file.\n");
