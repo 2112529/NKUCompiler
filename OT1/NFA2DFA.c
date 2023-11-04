@@ -11,7 +11,7 @@ DFAState* convertNFAtoDFA(NFAState *start,  char *alphabet) {
 
     // 为NFA的初始状态创建一个新的DFA状态集合
     EpsilonClosure *InitialClosure = computeEpsilonClosure(start);
-    DFAState* InitDFAState = createDFAState(InitialClosure, DFAStateCount++,finalNFA);
+    DFAState* InitDFAState = createDFAState(InitialClosure, DFAStateCount++,&finalNFA);
     addToWorklist(&worklist, InitDFAState);
 
     while (worklist.size) {
@@ -21,7 +21,7 @@ DFAState* convertNFAtoDFA(NFAState *start,  char *alphabet) {
         for(int i = 0; i < strlen(alphabet); i++) {
             EpsilonClosure *NewClosure = GetNewClosure(currentState, alphabet[i]);
             if (NewClosure) {
-                DFAState *newState = createDFAState(NewClosure, DFAStateCount++,finalNFA);
+                DFAState *newState = createDFAState(NewClosure, DFAStateCount++,&finalNFA);
                 addToWorklist(&worklist, newState);
                 addDFATransition
                     (currentState, alphabet[i], newState);
@@ -34,10 +34,10 @@ DFAState* convertNFAtoDFA(NFAState *start,  char *alphabet) {
 int main()
 {
     char FinalNFAalphabet[10];
-    findAlphabet(finalNFA,FinalNFAalphabet);
-    FinalDFA = convertNFAtoDFA(finalNFA->start, FinalNFAalphabet);
+    findAlphabet(&finalNFA,FinalNFAalphabet);
+    FinalDFA = convertNFAtoDFA(finalNFA.start, FinalNFAalphabet);
     PrintDFA(FinalDFA);
-    freeDFA(FinalDFA);
+    //freeDFA(FinalDFA);
     return 0;
 }
 

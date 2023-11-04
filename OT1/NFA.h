@@ -23,10 +23,10 @@ typedef struct {
     NFAState *accept;
     NFATransition *transitions;
 } NFA;
-NFA *finalNFA;
+NFA finalNFA;
 int StateIDCount=0;
-#define MAX_SYMBOLS 256
-#define MAX_STATES 100 // the number of NFA states根据实际情况调整
+#define MAX_SYMBOLS 10
+#define MAX_STATES 20 // the number of NFA states根据实际情况调整
 
 
 // 声明NFA操作函数
@@ -38,11 +38,11 @@ NFA createStarNFA(NFA a);
 
 void printNFA(NFA nfa, FILE *output) {
     // 创建一个队列存放待访问的状态
-    NFAState* queue[1000]; // 假设最多有1000个状态，你可以根据需要增减
+    NFAState* queue[20]; // 假设最多有20个状态，你可以根据需要增减
     int front = 0, rear = 0;
 
     // 创建一个标记数组来记录哪些状态已被访问
-    bool visited[1000] = {false};
+    bool visited[20] = {false};
 
     // 开始状态入队
     queue[rear++] = nfa.start;

@@ -35,8 +35,8 @@ void yyerror(const char* s);
 
 //描述正则表达式
 
-regex   : regex OR concat       { $$ = createUnionNFA($1, $3); *finalNFA = $$; }
-        | concat                { $$ = $1; *finalNFA = $$; }
+regex   : regex OR concat       { $$ = createUnionNFA($1, $3); finalNFA = $$; }
+        | concat                { $$ = $1; finalNFA = $$; }
         ;
 
 concat  : concat basic          { $$ = createConcatNFA($1, $2); }
@@ -158,11 +158,12 @@ int main(void)
     }while(!feof(yyin));
     FILE* file = fopen("output", "w");
     if (file) {
-        printNFA(*finalNFA, file);
+        printNFA(finalNFA, file);
         fclose(file);
     } else {
         fprintf(stderr, "Unable to open output file.\n");
     }
+
 
     return 0;
 }
