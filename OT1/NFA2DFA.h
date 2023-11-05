@@ -39,9 +39,9 @@ void PrintDFA(DFAState *startState) {
         return;
     }
 
-    FILE *file = fopen("DFAoutput.txt", "w");
+    FILE *file = fopen("DFAoutput", "w");
     if (!file) {
-        perror("Failed to open DFAoutput.txt");
+        perror("Failed to open DFAoutput");
         return;
     }
 

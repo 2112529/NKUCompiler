@@ -1,0 +1,7 @@
+State: {S0}, isAccepting: 0
+    Transition on 'a' to state {S1}
+State: {S1}, isAccepting: 0
+    Transition on 'b' to state {S2}
+State: {S2}, isAccepting: 1
+    Transition on 'a' to state {S2}
+    Transition on 'b' to state {S2}

@@ -1,0 +1,14 @@
+digraph DFA {
+    rankdir=LR;
+    size="8,5";
+    node [shape = doublecircle]; "{S2}";
+    node [shape = circle];
+
+    "{S0}" -> "{S1}" [ label = "a" ];
+    "{S1}" -> "{S2}" [ label = "b" ];
+    "{S2}" -> "{S2}" [ label = "a" ];
+    "{S2}" -> "{S2}" [ label = "b" ];
+    {rank=min; "{S0}"};
+    {rank=same; "{S1}"};
+    {rank=max; "{S2}"};
+}
