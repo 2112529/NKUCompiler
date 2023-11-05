@@ -26,7 +26,7 @@ typedef struct {
 NFA finalNFA;
 int StateIDCount=0;
 #define MAX_SYMBOLS 10
-#define MAX_STATES 20 // the number of NFA states根据实际情况调整
+#define MAX_STATES 50 // the number of NFA states根据实际情况调整
 
 
 // 声明NFA操作函数

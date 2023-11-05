@@ -1,4 +1,4 @@
-State: 18, isAccepting: 0
+State: 14, isAccepting: 0
 	Transition on 'e' to state 6
 State: 6, isAccepting: 0
 	Transition on 'e' to state 2
@@ -17,27 +17,18 @@ State: 1, isAccepting: 0
 State: 5, isAccepting: 0
 	Transition on 'e' to state 7
 State: 7, isAccepting: 0
-	Transition on 'e' to state 16
-State: 16, isAccepting: 0
-	Transition on 'e' to state 14
 	Transition on 'e' to state 12
-State: 14, isAccepting: 0
-	Transition on 'e' to state 15
 State: 12, isAccepting: 0
 	Transition on 'e' to state 10
 	Transition on 'e' to state 8
-State: 15, isAccepting: 0
-	Transition on 'e' to state 17
 State: 10, isAccepting: 0
 	Transition on 'b' to state 11
 State: 8, isAccepting: 0
 	Transition on 'a' to state 9
-State: 17, isAccepting: 0
-	Transition on 'e' to state 19
 State: 11, isAccepting: 0
 	Transition on 'e' to state 13
 State: 9, isAccepting: 0
 	Transition on 'e' to state 13
-State: 19, isAccepting: 1
 State: 13, isAccepting: 0
-	Transition on 'e' to state 17
+	Transition on 'e' to state 15
+State: 15, isAccepting: 1

@@ -33,7 +33,7 @@ DFAState* convertNFAtoDFA(NFAState *start,  char *alphabet) {
 }
 int main()
 {
-    char FinalNFAalphabet[10];
+    char FinalNFAalphabet[MAX_SYMBOLS];
     findAlphabet(&finalNFA,FinalNFAalphabet);
     FinalDFA = convertNFAtoDFA(finalNFA.start, FinalNFAalphabet);
     PrintDFA(FinalDFA);
